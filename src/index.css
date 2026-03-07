@@ -79,17 +79,22 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      hsl(var(--primary) / 0.04) 25%,
-      hsl(var(--primary) / 0.08) 50%,
-      hsl(var(--primary) / 0.04) 75%,
+      hsl(220 65% 48% / 0.08) 20%,
+      hsl(220 65% 48% / 0.15) 50%,
+      hsl(220 65% 48% / 0.08) 80%,
       transparent 100%
     );
-    background-size: 200% 100%;
-    animation: slideShine 3s ease-in-out infinite;
+    background-size: 300% 100%;
+    animation: slideShine 4s ease-in-out infinite;
     pointer-events: none;
+    z-index: 0;
+  }
+  .tweet-slide-bg > * {
+    position: relative;
+    z-index: 1;
   }
   @keyframes slideShine {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
   }
 }
