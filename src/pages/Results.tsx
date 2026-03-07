@@ -214,7 +214,7 @@ const Results = () => {
         </aside>
 
         {/* Right — Tweet feed (scrollable) */}
-        <section className="flex-1 min-w-0 max-w-2xl py-8 overflow-y-auto">
+        <section className="flex-1 min-w-0 max-w-2xl py-8 overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Generated Tweets</h2>
             <span className="text-xs text-muted-foreground tabular-nums">{tweets.length} tweets</span>
