@@ -62,7 +62,7 @@ const Results = () => {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="border-b border-border bg-card">
-        <div className="w-full max-w-[1200px] mx-auto px-8 h-16 flex items-center justify-between">
+        <div className="w-full max-w-[1440px] mx-auto px-12 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="gap-1.5 text-muted-foreground hover:text-foreground -ml-2">
               <ArrowLeft className="h-4 w-4" />
@@ -81,7 +81,7 @@ const Results = () => {
       </header>
 
       {/* Content — fixed two-column desktop layout */}
-      <div className="flex-1 w-full max-w-[1200px] mx-auto px-8 py-10">
+      <div className="flex-1 w-full max-w-[1440px] mx-auto px-12 py-10">
         <div className="grid grid-cols-12 gap-10">
 
           {/* Left — Brand Voice (4 cols) */}
