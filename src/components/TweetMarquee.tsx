@@ -112,11 +112,11 @@ export function TweetMarquee() {
       </div>
 
       <div className="relative space-y-3">
-        <MarqueeRow tweets={SAMPLE_TWEETS[0]} direction="left" speed={45} />
-        <MarqueeRow tweets={SAMPLE_TWEETS[1]} direction="right" speed={50} />
-        <MarqueeRow tweets={SAMPLE_TWEETS[2]} direction="left" speed={42} />
-        <MarqueeRow tweets={SAMPLE_TWEETS[3]} direction="right" speed={48} />
-        <MarqueeRow tweets={SAMPLE_TWEETS[4]} direction="left" speed={46} />
+        <MarqueeRow tweets={SAMPLE_TWEETS[0]} direction="left" speed={120} />
+        <MarqueeRow tweets={SAMPLE_TWEETS[1]} direction="right" speed={130} />
+        <MarqueeRow tweets={SAMPLE_TWEETS[2]} direction="left" speed={115} />
+        <MarqueeRow tweets={SAMPLE_TWEETS[3]} direction="right" speed={125} />
+        <MarqueeRow tweets={SAMPLE_TWEETS[4]} direction="left" speed={118} />
       </div>
     </section>
   );
