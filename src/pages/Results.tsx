@@ -227,7 +227,6 @@ const Results = () => {
         </section>
       </div>
     </div>
-    </div>
   );
 };
 
