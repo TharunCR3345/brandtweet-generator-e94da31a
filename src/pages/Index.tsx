@@ -3,7 +3,6 @@ import { BrandForm } from "@/components/BrandForm";
 import { ResultsDisplay } from "@/components/ResultsDisplay";
 import { generateTweets, type GenerateResult, type BrandInput } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { Zap, Twitter } from "lucide-react";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,42 +30,57 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container max-w-4xl mx-auto px-4 py-6 flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl brand-gradient-bg flex items-center justify-center">
-            <Twitter className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-foreground">BrandTweet Generator</h1>
-            <p className="text-sm text-muted-foreground">AI-powered on-brand tweet generation</p>
-          </div>
-        </div>
-      </header>
+      {/* Subtle grid pattern */}
+      <div className="fixed inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h40v40H0z\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'0.5\'/%3E%3C/svg%3E")' }} />
 
-      <main className="container max-w-4xl mx-auto px-4 py-8 space-y-8">
-        {/* Input Section */}
-        <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-          <div className="flex items-center gap-2 mb-6">
-            <Zap className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold text-foreground">Brand Details</h2>
-          </div>
-          <BrandForm onSubmit={handleSubmit} isLoading={isLoading} />
-        </section>
-
-        {/* Loading */}
-        {isLoading && (
-          <div className="text-center py-16">
-            <div className="inline-flex items-center gap-3 text-muted-foreground">
-              <div className="h-5 w-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              <span>Analyzing <strong className="text-foreground">{currentBrand}</strong>'s brand voice & generating tweets...</span>
+      <div className="relative">
+        {/* Header */}
+        <header className="border-b border-border">
+          <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="h-6 w-6 rounded brand-gradient-bg" />
+              <span className="font-semibold text-sm text-foreground tracking-tight">BrandTweet</span>
+              <span className="text-xs text-muted-foreground border border-border rounded px-1.5 py-0.5 mono">v1.0</span>
             </div>
+            <span className="text-xs text-tertiary mono">AI-powered tweet generation</span>
           </div>
-        )}
+        </header>
 
-        {/* Results */}
-        {result && !isLoading && <ResultsDisplay result={result} />}
-      </main>
+        <main className="max-w-3xl mx-auto px-6 py-10 space-y-10">
+          {/* Hero */}
+          <div className="space-y-3">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+              Generate on-brand tweets<br />
+              <span className="brand-gradient-text">in seconds.</span>
+            </h1>
+            <p className="text-sm text-muted-foreground max-w-lg leading-relaxed">
+              Enter your brand details below. Our AI analyzes the brand's voice, tone, and audience — then generates 10 tweets that sound authentic.
+            </p>
+          </div>
+
+          {/* Form */}
+          <div className="rounded-lg border border-border bg-card p-6">
+            <BrandForm onSubmit={handleSubmit} isLoading={isLoading} />
+          </div>
+
+          {/* Loading state */}
+          {isLoading && (
+            <div className="flex items-center justify-center py-16">
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <div className="flex gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary pulse-dot" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary pulse-dot" style={{ animationDelay: '0.3s' }} />
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary pulse-dot" style={{ animationDelay: '0.6s' }} />
+                </div>
+                Analyzing <span className="text-foreground font-medium">{currentBrand}</span> brand voice...
+              </div>
+            </div>
+          )}
+
+          {/* Results */}
+          {result && !isLoading && <ResultsDisplay result={result} brandName={currentBrand} />}
+        </main>
+      </div>
     </div>
   );
 };

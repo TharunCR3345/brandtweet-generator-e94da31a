@@ -1,14 +1,13 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Copy, Check, MessageCircle, Megaphone, Lightbulb, Smile } from "lucide-react";
 import { useState } from "react";
 import type { GenerateResult } from "@/lib/api";
 
 const styleConfig = {
-  conversational: { label: "Conversational", icon: MessageCircle, className: "bg-accent text-accent-foreground" },
-  promotional: { label: "Promotional", icon: Megaphone, className: "bg-primary/15 text-primary" },
-  witty: { label: "Witty", icon: Smile, className: "bg-amber-100 text-amber-800" },
-  informative: { label: "Informative", icon: Lightbulb, className: "bg-emerald-100 text-emerald-800" },
+  conversational: { label: "Conversational", icon: MessageCircle, color: "text-blue-400" },
+  promotional: { label: "Promotional", icon: Megaphone, color: "text-amber-400" },
+  witty: { label: "Witty", icon: Smile, color: "text-pink-400" },
+  informative: { label: "Informative", icon: Lightbulb, color: "text-emerald-400" },
 };
 
 function TweetCard({ text, style, index }: { text: string; style: string; index: number }) {
@@ -23,81 +22,86 @@ function TweetCard({ text, style, index }: { text: string; style: string; index:
   };
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5">
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <Badge variant="outline" className={config.className}>
-            <Icon className="h-3 w-3 mr-1" />
-            {config.label}
-          </Badge>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">{text.length}/280</span>
-            <button
-              onClick={handleCopy}
-              className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
-            >
-              {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
-            </button>
-          </div>
+    <div
+      className="group p-4 rounded-lg border border-border bg-card card-hover fade-in"
+      style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'backwards' }}
+    >
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <Icon className={`h-3.5 w-3.5 ${config.color}`} />
+          <span className={`text-xs font-medium ${config.color}`}>{config.label}</span>
         </div>
-        <p className="text-foreground leading-relaxed">{text}</p>
-      </CardContent>
-    </Card>
+        <div className="flex items-center gap-2">
+          <span className="mono text-[10px] text-tertiary">{text.length}<span className="text-muted-foreground/30">/280</span></span>
+          <button
+            onClick={handleCopy}
+            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-secondary"
+            title="Copy tweet"
+          >
+            {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
+          </button>
+        </div>
+      </div>
+      <p className="text-sm text-foreground/90 leading-relaxed">{text}</p>
+    </div>
   );
 }
 
-export function ResultsDisplay({ result }: { result: GenerateResult }) {
+function VoiceCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="space-y-1">
+      <span className="text-[10px] mono uppercase tracking-widest text-tertiary">{label}</span>
+      <p className="text-sm text-foreground">{value}</p>
+    </div>
+  );
+}
+
+export function ResultsDisplay({ result, brandName }: { result: GenerateResult; brandName: string }) {
   const { voiceSummary, tweets } = result;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 fade-in">
       {/* Voice Summary */}
-      <Card className="border-primary/20 bg-primary/5">
-        <CardContent className="p-6">
-          <h3 className="text-lg font-bold text-foreground mb-4">🎯 Brand Voice Summary</h3>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div>
-              <span className="text-sm font-medium text-muted-foreground">Tone</span>
-              <p className="text-foreground font-medium">{voiceSummary.tone}</p>
-            </div>
-            <div>
-              <span className="text-sm font-medium text-muted-foreground">Communication Style</span>
-              <p className="text-foreground font-medium">{voiceSummary.communicationStyle}</p>
-            </div>
-            <div>
-              <span className="text-sm font-medium text-muted-foreground">Target Audience</span>
-              <p className="text-foreground font-medium">{voiceSummary.targetAudience}</p>
-            </div>
-            <div>
-              <span className="text-sm font-medium text-muted-foreground">Emoji Style</span>
-              <p className="text-foreground font-medium">{voiceSummary.emojiStyle}</p>
-            </div>
-          </div>
+      <div className="rounded-lg border border-border bg-card overflow-hidden">
+        <div className="px-5 py-3 border-b border-border flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full brand-gradient-bg" />
+          <h3 className="text-sm font-semibold text-foreground">Brand Voice — <span className="brand-gradient-text">{brandName}</span></h3>
+        </div>
 
-          <div className="mt-4">
-            <span className="text-sm font-medium text-muted-foreground">Content Themes</span>
-            <div className="flex flex-wrap gap-2 mt-1">
+        <div className="p-5 grid gap-4 sm:grid-cols-2">
+          <VoiceCard label="Tone" value={voiceSummary.tone} />
+          <VoiceCard label="Style" value={voiceSummary.communicationStyle} />
+          <VoiceCard label="Target Audience" value={voiceSummary.targetAudience} />
+          <VoiceCard label="Emoji Usage" value={voiceSummary.emojiStyle} />
+        </div>
+
+        <div className="px-5 pb-5 space-y-3">
+          <div>
+            <span className="text-[10px] mono uppercase tracking-widest text-tertiary">Themes</span>
+            <div className="flex flex-wrap gap-1.5 mt-1.5">
               {voiceSummary.contentThemes.map((theme) => (
-                <Badge key={theme} variant="secondary">{theme}</Badge>
+                <Badge key={theme} variant="secondary" className="text-xs font-normal bg-secondary text-secondary-foreground border-0">{theme}</Badge>
               ))}
             </div>
           </div>
-
-          <div className="mt-3">
-            <span className="text-sm font-medium text-muted-foreground">Keywords</span>
-            <div className="flex flex-wrap gap-2 mt-1">
+          <div>
+            <span className="text-[10px] mono uppercase tracking-widest text-tertiary">Keywords</span>
+            <div className="flex flex-wrap gap-1.5 mt-1.5">
               {voiceSummary.keywords.map((kw) => (
-                <Badge key={kw} variant="outline" className="text-primary border-primary/30">{kw}</Badge>
+                <span key={kw} className="mono text-xs text-primary/80 bg-primary/10 px-2 py-0.5 rounded">{kw}</span>
               ))}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Tweets */}
       <div>
-        <h3 className="text-lg font-bold text-foreground mb-4">📝 Generated Tweets</h3>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex items-center gap-2 mb-4">
+          <h3 className="text-sm font-semibold text-foreground">Generated Tweets</h3>
+          <span className="mono text-xs text-tertiary">{tweets.length} tweets</span>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
           {tweets.map((tweet, i) => (
             <TweetCard key={i} text={tweet.text} style={tweet.style} index={i} />
           ))}
