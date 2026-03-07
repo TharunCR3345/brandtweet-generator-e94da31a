@@ -30,57 +30,35 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Subtle grid pattern */}
-      <div className="fixed inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h40v40H0z\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'0.5\'/%3E%3C/svg%3E")' }} />
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="max-w-2xl mx-auto px-5 h-14 flex items-center">
+          <span className="font-semibold text-foreground">BrandTweet Generator</span>
+        </div>
+      </header>
 
-      <div className="relative">
-        {/* Header */}
-        <header className="border-b border-border">
-          <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="h-6 w-6 rounded brand-gradient-bg" />
-              <span className="font-semibold text-sm text-foreground tracking-tight">BrandTweet</span>
-              <span className="text-xs text-muted-foreground border border-border rounded px-1.5 py-0.5 mono">v1.0</span>
-            </div>
-            <span className="text-xs text-tertiary mono">AI-powered tweet generation</span>
+      <main className="max-w-2xl mx-auto px-5 py-8 space-y-8">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Generate on-brand tweets</h1>
+          <p className="text-sm text-muted-foreground mt-1">Enter brand details to generate 10 tweets that match the brand voice.</p>
+        </div>
+
+        {/* Form */}
+        <div className="bg-card border border-border rounded-lg p-5">
+          <BrandForm onSubmit={handleSubmit} isLoading={isLoading} />
+        </div>
+
+        {/* Loading */}
+        {isLoading && (
+          <div className="text-center py-12 text-sm text-muted-foreground">
+            <div className="h-5 w-5 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            Analyzing {currentBrand}...
           </div>
-        </header>
+        )}
 
-        <main className="max-w-3xl mx-auto px-6 py-10 space-y-10">
-          {/* Hero */}
-          <div className="space-y-3">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              Generate on-brand tweets<br />
-              <span className="brand-gradient-text">in seconds.</span>
-            </h1>
-            <p className="text-sm text-muted-foreground max-w-lg leading-relaxed">
-              Enter your brand details below. Our AI analyzes the brand's voice, tone, and audience — then generates 10 tweets that sound authentic.
-            </p>
-          </div>
-
-          {/* Form */}
-          <div className="rounded-lg border border-border bg-card p-6">
-            <BrandForm onSubmit={handleSubmit} isLoading={isLoading} />
-          </div>
-
-          {/* Loading state */}
-          {isLoading && (
-            <div className="flex items-center justify-center py-16">
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <div className="flex gap-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary pulse-dot" />
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary pulse-dot" style={{ animationDelay: '0.3s' }} />
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary pulse-dot" style={{ animationDelay: '0.6s' }} />
-                </div>
-                Analyzing <span className="text-foreground font-medium">{currentBrand}</span> brand voice...
-              </div>
-            </div>
-          )}
-
-          {/* Results */}
-          {result && !isLoading && <ResultsDisplay result={result} brandName={currentBrand} />}
-        </main>
-      </div>
+        {/* Results */}
+        {result && !isLoading && <ResultsDisplay result={result} brandName={currentBrand} />}
+      </main>
     </div>
   );
 };
