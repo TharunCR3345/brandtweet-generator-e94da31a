@@ -4,7 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { BrandInput } from "@/lib/api";
+import { Wand2 } from "lucide-react";
+import { autofillBrand, type BrandInput } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 
 interface BrandFormProps {
   onSubmit: (input: BrandInput) => void;
@@ -16,18 +18,48 @@ export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
   const [industry, setIndustry] = useState("");
   const [objective, setObjective] = useState("");
   const [productDescription, setProductDescription] = useState("");
+  const [isAutofilling, setIsAutofilling] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({ brandName, industry, objective, productDescription });
   };
 
+  const handleAutofill = async () => {
+    if (!brandName.trim()) {
+      toast({ title: "Enter a brand name first", variant: "destructive" });
+      return;
+    }
+    setIsAutofilling(true);
+    try {
+      const result = await autofillBrand(brandName.trim());
+      setIndustry(result.industry);
+      setObjective(result.objective);
+      setProductDescription(result.productDescription);
+      toast({ title: "Autofilled!", description: `Details fetched for ${brandName}` });
+    } catch (err) {
+      toast({ title: "Autofill failed", description: err instanceof Error ? err.message : "Try again", variant: "destructive" });
+    } finally {
+      setIsAutofilling(false);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-
       <div className="space-y-1.5">
         <Label htmlFor="brandName" className="text-sm">Brand Name <span className="text-destructive">*</span></Label>
-        <Input id="brandName" value={brandName} onChange={(e) => setBrandName(e.target.value)} placeholder="e.g. Nike" required />
+        <div className="flex gap-2">
+          <Input id="brandName" value={brandName} onChange={(e) => setBrandName(e.target.value)} placeholder="e.g. Nike" required className="flex-1" />
+          <Button type="button" variant="outline" size="default" onClick={handleAutofill} disabled={isAutofilling || !brandName.trim()} className="shrink-0 text-sm gap-1.5">
+            {isAutofilling ? (
+              <span className="h-4 w-4 border-2 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
+            ) : (
+              <Wand2 className="h-4 w-4" />
+            )}
+            {isAutofilling ? "Fetching..." : "Autofill"}
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
