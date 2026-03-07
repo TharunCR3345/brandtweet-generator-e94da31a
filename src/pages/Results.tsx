@@ -25,22 +25,32 @@ function TweetCard({ text, style, index }: { text: string; style: string; index:
 
   return (
     <div
-      className="p-5 border border-border rounded-lg bg-card group hover:border-primary/20 hover:shadow-sm transition-all fade-in tweet-slide-bg"
+      className="relative overflow-hidden p-5 border border-border rounded-lg bg-card group hover:border-primary/20 hover:shadow-sm transition-all fade-in"
       style={{ animationDelay: `${index * 50}ms`, animationFillMode: "backwards" }}
     >
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-1.5">
-          <Icon className={`h-3.5 w-3.5 ${config.color}`} />
-          <span className={`text-xs font-medium ${config.color}`}>{config.label}</span>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(90deg, transparent, hsl(220 65% 48% / 0.12), transparent)',
+          animation: `slideShine 3s ease-in-out infinite`,
+          animationDelay: `${index * 300}ms`,
+        }}
+      />
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-1.5">
+            <Icon className={`h-3.5 w-3.5 ${config.color}`} />
+            <span className={`text-xs font-medium ${config.color}`}>{config.label}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] text-muted-foreground tabular-nums">{text.length}/280</span>
+            <button onClick={handleCopy} className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-muted" title="Copy">
+              {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[11px] text-muted-foreground tabular-nums">{text.length}/280</span>
-          <button onClick={handleCopy} className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-muted" title="Copy">
-            {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
-          </button>
-        </div>
+        <p className="text-[15px] text-foreground leading-relaxed">{text}</p>
       </div>
-      <p className="text-[15px] text-foreground leading-relaxed">{text}</p>
     </div>
   );
 }
