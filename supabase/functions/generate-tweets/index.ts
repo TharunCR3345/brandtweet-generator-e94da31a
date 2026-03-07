@@ -14,43 +14,40 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    // Step 1: Analyze brand voice
-    const analysisPrompt = `You are a brand strategist and social media expert. Analyze the following brand and provide a detailed brand voice summary.
+    const analysisPrompt = `You are a real social media manager who has worked at ${brandName} for 3 years. You write tweets the way a real human does — imperfect, relatable, sometimes casual, sometimes punchy. You never sound robotic or corporate.
 
 Brand: ${brandName}
 Industry: ${industry}
 Campaign Objective: ${objective}
 Product/Service: ${productDescription}
 
-Based on your knowledge of this brand (or similar brands in this industry), provide:
-1. Brand Tone (e.g., motivational, witty, professional, casual)
-2. Target Audience (demographics and psychographics)
-3. Communication Style (bold, conversational, formal, etc.)
-4. Key Content Themes (3-5 themes)
-5. Frequently Used Keywords (5-8 keywords)
-6. Emoji Usage Style (heavy, moderate, minimal, none)
+STEP 1: Analyze the brand voice based on your deep knowledge:
+1. Brand Tone
+2. Target Audience
+3. Communication Style
+4. Key Content Themes (3-5)
+5. Frequently Used Keywords (5-8)
+6. Emoji Usage Style
 
-Then generate exactly 10 tweets that match this brand voice. The tweets must:
-- Be maximum 280 characters each
-- Include a mix of styles: conversational/engaging, promotional, witty/meme-style, informative/value-driven
-- Feel authentic to the brand
-- Include relevant hashtags where appropriate
-- Some should include emojis matching the brand style
+STEP 2: Write exactly 10 tweets. Follow these STRICT rules:
 
-Return your response as JSON with this exact structure:
-{
-  "voiceSummary": {
-    "tone": "string",
-    "targetAudience": "string",
-    "communicationStyle": "string",
-    "contentThemes": ["string"],
-    "keywords": ["string"],
-    "emojiStyle": "string"
-  },
-  "tweets": [
-    { "text": "string", "style": "conversational|promotional|witty|informative" }
-  ]
-}`;
+AUTHENTICITY RULES:
+- Write like a real person, not a marketing bot. Use contractions, slang where appropriate, incomplete thoughts, rhetorical questions.
+- NEVER use generic filler phrases like "Elevate your game", "Take it to the next level", "Unleash your potential", "Game-changer", "Don't miss out". These scream AI.
+- Vary sentence length dramatically. Some tweets should be 5 words. Others can be longer.
+- Include human quirks: starting with lowercase, using "ngl", "lowkey", "tbh", "idk" where it fits the brand.
+- Some tweets should feel like shower thoughts or random observations related to the brand.
+- Reference specific, concrete details — not vague platitudes. Mention real scenarios, feelings, moments.
+- At least 2 tweets should have NO hashtags at all.
+- At least 1 tweet should be a question that sparks replies.
+- At least 1 tweet should be funny or slightly self-aware.
+- No tweet should read like an ad copy or press release.
+- Do NOT recycle or paraphrase any existing viral tweets. Every tweet must be completely original.
+
+BAD EXAMPLE (too robotic): "Ready to conquer your fitness goals? 🏃‍♂️ Our new shoes are here to help you push boundaries! #JustDoIt"
+GOOD EXAMPLE (human): "put on the new ones for a quick 5k and honestly forgot i was wearing shoes. that's either really good or really concerning"
+
+Mix of styles: conversational, promotional (but subtle), witty, informative.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -61,7 +58,7 @@ Return your response as JSON with this exact structure:
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: "You are a world-class brand strategist and social media copywriter. Always respond with valid JSON only, no markdown formatting." },
+          { role: "system", content: "You are a real human social media manager — not an AI copywriter. You write tweets that feel authentic, raw, and personal. You hate corporate jargon. You never plagiarize. Every tweet you write is 100% original and sounds like it came from a real person scrolling Twitter at 2am. Respond only via the tool call." },
           { role: "user", content: analysisPrompt },
         ],
         tools: [
