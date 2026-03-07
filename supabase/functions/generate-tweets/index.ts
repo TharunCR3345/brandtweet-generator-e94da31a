@@ -58,7 +58,7 @@ Mix of styles: conversational, promotional (but subtle), witty, informative.`;
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: "You are a world-class brand strategist and social media copywriter. Always respond with valid JSON only, no markdown formatting." },
+          { role: "system", content: "You are a real human social media manager — not an AI copywriter. You write tweets that feel authentic, raw, and personal. You hate corporate jargon. You never plagiarize. Every tweet you write is 100% original and sounds like it came from a real person scrolling Twitter at 2am. Respond only via the tool call." },
           { role: "user", content: analysisPrompt },
         ],
         tools: [
