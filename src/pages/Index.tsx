@@ -3,7 +3,7 @@ import { BrandForm } from "@/components/BrandForm";
 import { generateTweets, type BrandInput } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { Twitter } from "lucide-react";
+import { Twitter, Zap, BarChart2, Users } from "lucide-react";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,18 +38,54 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-[480px]">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight leading-tight">
-              Generate on-brand tweets
-            </h1>
-            <p className="mt-2 text-muted-foreground text-sm sm:text-base max-w-md mx-auto">
-              AI-powered tweet generation that matches your brand voice perfectly.
-            </p>
+      {/* Main — two columns */}
+      <div className="flex-1 flex items-center">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+          {/* Left — About */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight leading-tight">
+                Generate authentic,<br />on-brand tweets<br />in seconds.
+              </h1>
+              <p className="text-base text-muted-foreground leading-relaxed max-w-md">
+                Our AI analyzes your brand's voice, tone, and audience — then generates 10 tweets that sound like they were written by your social media team.
+              </p>
+            </div>
+
+            {/* Feature highlights */}
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Zap className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">AI Voice Analysis</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">Understands your brand tone, style, and audience automatically.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <BarChart2 className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">4 Tweet Styles</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">Conversational, promotional, witty, and informative — all in one run.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Users className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">10 Tweets Per Run</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">Get a full batch of ready-to-post tweets optimized for engagement.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
+          {/* Right — Form */}
           <div className="bg-card border border-border rounded-xl p-7 shadow-sm">
             <h2 className="text-base font-semibold text-foreground mb-5">Brand Details</h2>
             <BrandForm onSubmit={handleSubmit} isLoading={isLoading} />
