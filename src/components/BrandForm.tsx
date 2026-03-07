@@ -55,7 +55,7 @@ export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
             {isAutofilling ? (
               <span className="h-4 w-4 border-2 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
             ) : (
-              <Wand2 className="h-4 w-4" />
+              <Sparkles className="h-4 w-4" />
             )}
             {isAutofilling ? "Fetching..." : "Autofill"}
           </Button>
