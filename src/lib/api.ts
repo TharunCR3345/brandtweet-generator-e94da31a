@@ -37,3 +37,19 @@ export async function generateTweets(input: BrandInput): Promise<GenerateResult>
   if (data?.error) throw new Error(data.error);
   return data as GenerateResult;
 }
+
+export interface AutofillResult {
+  industry: string;
+  productDescription: string;
+  objective: string;
+}
+
+export async function autofillBrand(brandName: string): Promise<AutofillResult> {
+  const { data, error } = await supabase.functions.invoke("brand-autofill", {
+    body: { brandName },
+  });
+
+  if (error) throw new Error(error.message || "Failed to autofill");
+  if (data?.error) throw new Error(data.error);
+  return data as AutofillResult;
+}

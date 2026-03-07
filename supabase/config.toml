@@ -2,3 +2,6 @@ project_id = "axtcqlcrmyhrrxvkzhvc"
 
 [functions.generate-tweets]
 verify_jwt = false
+
+[functions.brand-autofill]
+verify_jwt = false
