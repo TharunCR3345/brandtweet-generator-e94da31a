@@ -25,7 +25,7 @@ function TweetCard({ text, style, index }: { text: string; style: string; index:
 
   return (
     <div
-      className="p-5 border border-border rounded-lg bg-card group hover:border-primary/20 hover:shadow-sm transition-all fade-in"
+      className="p-5 border border-border rounded-lg bg-card group hover:border-primary/20 hover:shadow-sm transition-all fade-in tweet-slide-bg"
       style={{ animationDelay: `${index * 50}ms`, animationFillMode: "backwards" }}
     >
       <div className="flex items-center justify-between mb-3">

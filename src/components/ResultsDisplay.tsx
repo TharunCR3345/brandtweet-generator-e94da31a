@@ -20,7 +20,7 @@ function TweetCard({ text, style, index }: { text: string; style: string; index:
   };
 
   return (
-    <div className="p-4 border border-border rounded-lg bg-card group fade-in" style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}>
+    <div className="p-4 border border-border rounded-lg bg-card group fade-in tweet-slide-bg" style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}>
       <div className="flex items-center justify-between mb-2">
         <Badge variant="secondary" className="text-xs font-normal">{styleBadge[style] || style}</Badge>
         <div className="flex items-center gap-2">
