@@ -30,12 +30,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-white/10 bg-black/30 backdrop-blur-xl">
         <div className="w-full max-w-[1440px] mx-auto px-12 h-12 flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
             <Twitter className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-lg font-semibold text-foreground tracking-tight">BrandTweet Generator</span>
+          <span className="text-lg font-semibold text-white tracking-tight">BrandTweet Generator</span>
         </div>
       </header>
 
@@ -50,8 +50,8 @@ const Index = () => {
         <div className="relative z-10 flex-1 flex items-center justify-center">
           <div className="w-full max-w-[1440px] mx-auto px-12 py-16 flex items-center justify-center">
             {/* Form */}
-            <div className="w-full max-w-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-8 shadow-2xl">
-              <h2 className="text-lg font-semibold text-foreground mb-6">Enter brand details</h2>
+            <div className="w-full max-w-lg bg-black/30 backdrop-blur-xl border border-white/15 rounded-xl p-8 shadow-2xl">
+              <h2 className="text-lg font-semibold text-white mb-6">Enter brand details</h2>
               <BrandForm onSubmit={handleSubmit} isLoading={isLoading} />
             </div>
           </div>
