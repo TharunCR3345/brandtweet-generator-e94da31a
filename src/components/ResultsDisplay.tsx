@@ -20,17 +20,27 @@ function TweetCard({ text, style, index }: { text: string; style: string; index:
   };
 
   return (
-    <div className="p-4 border border-border rounded-lg bg-card group fade-in tweet-slide-bg" style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}>
-      <div className="flex items-center justify-between mb-2">
-        <Badge variant="secondary" className="text-xs font-normal">{styleBadge[style] || style}</Badge>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">{text.length}/280</span>
-          <button onClick={handleCopy} className="opacity-0 group-hover:opacity-100 transition-opacity" title="Copy">
-            {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
-          </button>
+    <div className="relative overflow-hidden p-4 border border-border rounded-lg bg-card group fade-in" style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(90deg, transparent, hsl(220 65% 48% / 0.12), transparent)',
+          animation: `slideShine 3s ease-in-out infinite`,
+          animationDelay: `${index * 300}ms`,
+        }}
+      />
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-2">
+          <Badge variant="secondary" className="text-xs font-normal">{styleBadge[style] || style}</Badge>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">{text.length}/280</span>
+            <button onClick={handleCopy} className="opacity-0 group-hover:opacity-100 transition-opacity" title="Copy">
+              {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
+            </button>
+          </div>
         </div>
+        <p className="text-sm text-foreground leading-relaxed">{text}</p>
       </div>
-      <p className="text-sm text-foreground leading-relaxed">{text}</p>
     </div>
   );
 }
