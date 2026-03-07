@@ -46,14 +46,31 @@ export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-1.5">
-        <Label htmlFor="brandName" className="text-sm">Brand Name <span className="text-destructive">*</span></Label>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Brand Name + Autofill */}
+      <div className="space-y-2">
+        <Label htmlFor="brandName" className="text-sm text-white/80">
+          Brand Name <span className="text-destructive">*</span>
+        </Label>
         <div className="flex gap-2">
-          <Input id="brandName" value={brandName} onChange={(e) => setBrandName(e.target.value)} placeholder="e.g. Nike" required className="flex-1" />
-          <Button type="button" variant="outline" size="default" onClick={handleAutofill} disabled={isAutofilling || !brandName.trim()} className="shrink-0 text-sm gap-1.5">
+          <Input
+            id="brandName"
+            value={brandName}
+            onChange={(e) => setBrandName(e.target.value)}
+            placeholder="e.g. Nike"
+            required
+            className="flex-1 bg-white/10 border-white/15 text-white placeholder:text-white/40 focus-visible:ring-primary/50"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="default"
+            onClick={handleAutofill}
+            disabled={isAutofilling || !brandName.trim()}
+            className="shrink-0 text-sm gap-1.5 bg-white/10 border-white/15 text-white/80 hover:bg-white/20 hover:text-white"
+          >
             {isAutofilling ? (
-              <span className="h-4 w-4 border-2 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
+              <span className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <RefreshCw className="h-4 w-4" />
             )}
@@ -62,15 +79,31 @@ export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
         </div>
       </div>
 
+      {/* Industry + Objective */}
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <Label htmlFor="industry" className="text-sm">Industry <span className="text-muted-foreground text-xs">(optional)</span></Label>
-          <Input id="industry" value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="e.g. Sports" />
+        <div className="space-y-2">
+          <Label htmlFor="industry" className="text-sm text-white/80">
+            Industry <span className="text-white/40 text-xs">(optional)</span>
+          </Label>
+          <Input
+            id="industry"
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
+            placeholder="e.g. Sports"
+            className="bg-white/10 border-white/15 text-white placeholder:text-white/40 focus-visible:ring-primary/50"
+          />
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="objective" className="text-sm">Campaign Objective <span className="text-muted-foreground text-xs">(optional)</span></Label>
+        <div className="space-y-2">
+          <Label htmlFor="objective" className="text-sm text-white/80">
+            Objective <span className="text-white/40 text-xs">(optional)</span>
+          </Label>
           <Select value={objective} onValueChange={setObjective}>
-            <SelectTrigger id="objective"><SelectValue placeholder="Select objective" /></SelectTrigger>
+            <SelectTrigger
+              id="objective"
+              className="bg-white/10 border-white/15 text-white [&>span]:text-white/40 [&[data-state=open]>span]:text-white focus:ring-primary/50"
+            >
+              <SelectValue placeholder="Select objective" />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="awareness">Brand Awareness</SelectItem>
               <SelectItem value="promotion">Product Promotion</SelectItem>
@@ -81,12 +114,23 @@ export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
         </div>
       </div>
 
-      <div className="space-y-1.5">
-        <Label htmlFor="product" className="text-sm">Product Description <span className="text-muted-foreground text-xs">(optional)</span></Label>
-        <Textarea id="product" value={productDescription} onChange={(e) => setProductDescription(e.target.value)} placeholder="Describe the brand's products..." rows={3} className="resize-none" />
+      {/* Product Description */}
+      <div className="space-y-2">
+        <Label htmlFor="product" className="text-sm text-white/80">
+          Product Description <span className="text-white/40 text-xs">(optional)</span>
+        </Label>
+        <Textarea
+          id="product"
+          value={productDescription}
+          onChange={(e) => setProductDescription(e.target.value)}
+          placeholder="Describe the brand's products..."
+          rows={3}
+          className="resize-none bg-white/10 border-white/15 text-white placeholder:text-white/40 focus-visible:ring-primary/50"
+        />
       </div>
 
-      <Button type="submit" disabled={isLoading || !brandName} className="w-full">
+      {/* Submit */}
+      <Button type="submit" disabled={isLoading || !brandName} className="w-full h-11 text-sm font-medium">
         {isLoading ? "Generating..." : "Generate 10 Tweets"}
       </Button>
     </form>
