@@ -25,36 +25,36 @@ export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
 
+      <div className="space-y-1.5">
+        <Label htmlFor="brandName" className="text-sm">Brand Name <span className="text-destructive">*</span></Label>
+        <Input id="brandName" value={brandName} onChange={(e) => setBrandName(e.target.value)} placeholder="e.g. Nike" required />
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
-          <Label htmlFor="brandName" className="text-sm">Brand Name</Label>
-          <Input id="brandName" value={brandName} onChange={(e) => setBrandName(e.target.value)} placeholder="e.g. Nike" required />
+          <Label htmlFor="industry" className="text-sm">Industry <span className="text-muted-foreground text-xs">(optional)</span></Label>
+          <Input id="industry" value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="e.g. Sports" />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="industry" className="text-sm">Industry</Label>
-          <Input id="industry" value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="e.g. Sports" required />
+          <Label htmlFor="objective" className="text-sm">Campaign Objective <span className="text-muted-foreground text-xs">(optional)</span></Label>
+          <Select value={objective} onValueChange={setObjective}>
+            <SelectTrigger id="objective"><SelectValue placeholder="Select objective" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="awareness">Brand Awareness</SelectItem>
+              <SelectItem value="promotion">Product Promotion</SelectItem>
+              <SelectItem value="engagement">Audience Engagement</SelectItem>
+              <SelectItem value="product-launch">Product Launch</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="objective" className="text-sm">Campaign Objective</Label>
-        <Select value={objective} onValueChange={setObjective} required>
-          <SelectTrigger id="objective"><SelectValue placeholder="Select objective" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="awareness">Brand Awareness</SelectItem>
-            <SelectItem value="promotion">Product Promotion</SelectItem>
-            <SelectItem value="engagement">Audience Engagement</SelectItem>
-            <SelectItem value="product-launch">Product Launch</SelectItem>
-          </SelectContent>
-        </Select>
+        <Label htmlFor="product" className="text-sm">Product Description <span className="text-muted-foreground text-xs">(optional)</span></Label>
+        <Textarea id="product" value={productDescription} onChange={(e) => setProductDescription(e.target.value)} placeholder="Describe the brand's products..." rows={3} className="resize-none" />
       </div>
 
-      <div className="space-y-1.5">
-        <Label htmlFor="product" className="text-sm">Product Description</Label>
-        <Textarea id="product" value={productDescription} onChange={(e) => setProductDescription(e.target.value)} placeholder="Describe the brand's products..." rows={3} required className="resize-none" />
-      </div>
-
-      <Button type="submit" disabled={isLoading || !brandName || !industry || !objective || !productDescription} className="w-full">
+      <Button type="submit" disabled={isLoading || !brandName} className="w-full">
         {isLoading ? "Generating..." : "Generate 10 Tweets"}
       </Button>
     </form>
