@@ -176,11 +176,10 @@ const Results = () => {
 
       {/* Two-column layout — each column scrolls independently */}
       <div className="flex-1 w-full max-w-7xl mx-auto px-6 sm:px-10 flex gap-8 overflow-hidden">
-        {/* Left sidebar — Brand Voice (scrollable) */}
-        <aside className="w-[320px] flex-shrink-0 hidden lg:flex flex-col py-8 overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          <div className="space-y-5">
-            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Brand Voice</h2>
-
+        {/* Left sidebar — Brand Voice */}
+        <aside className="w-[320px] flex-shrink-0 hidden lg:flex flex-col pt-8 overflow-hidden">
+          <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5 flex-shrink-0">Brand Voice</h2>
+          <div className="flex-1 overflow-y-auto scrollbar-hide space-y-5 pb-8" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div className="bg-card border border-border rounded-xl divide-y divide-border">
               <InfoRow label="Tone" value={voiceSummary.tone} />
               <InfoRow label="Style" value={voiceSummary.communicationStyle} />
@@ -213,13 +212,13 @@ const Results = () => {
           </div>
         </aside>
 
-        {/* Right — Tweet feed (scrollable) */}
-        <section className="flex-1 min-w-0 max-w-2xl py-8 overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          <div className="flex items-center justify-between mb-5">
+        {/* Right — Tweet feed */}
+        <section className="flex-1 min-w-0 max-w-2xl flex flex-col pt-8 overflow-hidden">
+          <div className="flex items-center justify-between mb-5 flex-shrink-0">
             <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Generated Tweets</h2>
             <span className="text-xs text-muted-foreground tabular-nums">{tweets.length} tweets</span>
           </div>
-          <div className="space-y-3 pb-8">
+          <div className="flex-1 overflow-y-auto scrollbar-hide space-y-3 pb-8" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {tweets.map((tweet, i) => (
               <TweetCard key={i} text={tweet.text} style={tweet.style} index={i} brandName={brandName} />
             ))}
