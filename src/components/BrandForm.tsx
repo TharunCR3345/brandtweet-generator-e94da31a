@@ -11,13 +11,6 @@ interface BrandFormProps {
   isLoading: boolean;
 }
 
-const EXAMPLES = [
-  { brandName: "Nike", industry: "Sports & Athletics", objective: "product-launch", productDescription: "New running shoes with advanced cushioning technology" },
-  { brandName: "Swiggy", industry: "Food Delivery", objective: "engagement", productDescription: "Online food ordering and delivery platform" },
-  { brandName: "Apple", industry: "Technology", objective: "awareness", productDescription: "Premium consumer electronics and software" },
-  { brandName: "Netflix", industry: "Entertainment", objective: "engagement", productDescription: "Streaming platform for movies and series" },
-];
-
 export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
   const [brandName, setBrandName] = useState("");
   const [industry, setIndustry] = useState("");
@@ -29,22 +22,8 @@ export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
     onSubmit({ brandName, industry, objective, productDescription });
   };
 
-  const fill = (i: number) => {
-    const e = EXAMPLES[i];
-    setBrandName(e.brandName);
-    setIndustry(e.industry);
-    setObjective(e.objective);
-    setProductDescription(e.productDescription);
-  };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs text-muted-foreground">Try an example:</span>
-        {EXAMPLES.map((b, i) => (
-          <button key={b.brandName} type="button" onClick={() => fill(i)} className="text-xs text-primary hover:underline">{b.brandName}</button>
-        ))}
-      </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
