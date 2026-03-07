@@ -177,7 +177,7 @@ const Results = () => {
       {/* Two-column layout — each column scrolls independently */}
       <div className="flex-1 w-full max-w-7xl mx-auto px-6 sm:px-10 flex gap-8 overflow-hidden">
         {/* Left sidebar — Brand Voice (scrollable) */}
-        <aside className="w-[320px] flex-shrink-0 hidden lg:flex flex-col py-8 overflow-y-auto">
+        <aside className="w-[320px] flex-shrink-0 hidden lg:flex flex-col py-8 overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <div className="space-y-5">
             <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Brand Voice</h2>
 
