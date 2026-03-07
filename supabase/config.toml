@@ -1,1 +1,4 @@
 project_id = "axtcqlcrmyhrrxvkzhvc"
+
+[functions.generate-tweets]
+verify_jwt = false
