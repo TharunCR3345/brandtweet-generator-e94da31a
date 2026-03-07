@@ -144,9 +144,9 @@ const Results = () => {
   const { voiceSummary, tweets } = result;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur-xl">
+      <header className="z-30 border-b border-border bg-card flex-shrink-0">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button
@@ -174,60 +174,59 @@ const Results = () => {
         </div>
       </header>
 
-      {/* Two-column layout */}
-      <div className="flex-1 w-full max-w-7xl mx-auto px-6 sm:px-10 py-8">
-        <div className="flex gap-8">
-          {/* Left sidebar — Brand Voice */}
-          <aside className="w-[320px] flex-shrink-0 hidden lg:block">
-            <div className="sticky top-[72px] space-y-5">
-              <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Brand Voice</h2>
+      {/* Two-column layout — each column scrolls independently */}
+      <div className="flex-1 w-full max-w-7xl mx-auto px-6 sm:px-10 flex gap-8 overflow-hidden">
+        {/* Left sidebar — Brand Voice (scrollable) */}
+        <aside className="w-[320px] flex-shrink-0 hidden lg:flex flex-col py-8 overflow-y-auto">
+          <div className="space-y-5">
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Brand Voice</h2>
 
-              <div className="bg-card border border-border rounded-xl divide-y divide-border">
-                <InfoRow label="Tone" value={voiceSummary.tone} />
-                <InfoRow label="Style" value={voiceSummary.communicationStyle} />
-                <InfoRow label="Audience" value={voiceSummary.targetAudience} />
-                <InfoRow label="Emoji" value={voiceSummary.emojiStyle} />
-              </div>
+            <div className="bg-card border border-border rounded-xl divide-y divide-border">
+              <InfoRow label="Tone" value={voiceSummary.tone} />
+              <InfoRow label="Style" value={voiceSummary.communicationStyle} />
+              <InfoRow label="Audience" value={voiceSummary.targetAudience} />
+              <InfoRow label="Emoji" value={voiceSummary.emojiStyle} />
+            </div>
 
-              <div className="bg-card border border-border rounded-xl p-5 space-y-4">
-                <div>
-                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Themes</span>
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    {voiceSummary.contentThemes.map((theme) => (
-                      <Badge key={theme} variant="secondary" className="text-xs font-normal">
-                        {theme}
-                      </Badge>
-                    ))}
-                  </div>
+            <div className="bg-card border border-border rounded-xl p-5 space-y-4">
+              <div>
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Themes</span>
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {voiceSummary.contentThemes.map((theme) => (
+                    <Badge key={theme} variant="secondary" className="text-xs font-normal">
+                      {theme}
+                    </Badge>
+                  ))}
                 </div>
-                <div>
-                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Keywords</span>
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    {voiceSummary.keywords.map((kw) => (
-                      <Badge key={kw} variant="outline" className="text-xs font-normal text-primary border-primary/30">
-                        {kw}
-                      </Badge>
-                    ))}
-                  </div>
+              </div>
+              <div>
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Keywords</span>
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {voiceSummary.keywords.map((kw) => (
+                    <Badge key={kw} variant="outline" className="text-xs font-normal text-primary border-primary/30">
+                      {kw}
+                    </Badge>
+                  ))}
                 </div>
               </div>
             </div>
-          </aside>
+          </div>
+        </aside>
 
-          {/* Main — Tweet feed */}
-          <section className="flex-1 min-w-0 max-w-2xl">
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Generated Tweets</h2>
-              <span className="text-xs text-muted-foreground tabular-nums">{tweets.length} tweets</span>
-            </div>
-            <div className="space-y-3">
-              {tweets.map((tweet, i) => (
-                <TweetCard key={i} text={tweet.text} style={tweet.style} index={i} brandName={brandName} />
-              ))}
-            </div>
-          </section>
-        </div>
+        {/* Right — Tweet feed (scrollable) */}
+        <section className="flex-1 min-w-0 max-w-2xl py-8 overflow-y-auto">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Generated Tweets</h2>
+            <span className="text-xs text-muted-foreground tabular-nums">{tweets.length} tweets</span>
+          </div>
+          <div className="space-y-3 pb-8">
+            {tweets.map((tweet, i) => (
+              <TweetCard key={i} text={tweet.text} style={tweet.style} index={i} brandName={brandName} />
+            ))}
+          </div>
+        </section>
       </div>
+    </div>
     </div>
   );
 };
