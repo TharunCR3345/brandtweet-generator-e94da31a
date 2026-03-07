@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sparkles } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { autofillBrand, type BrandInput } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 
@@ -55,7 +55,7 @@ export function BrandForm({ onSubmit, isLoading }: BrandFormProps) {
             {isAutofilling ? (
               <span className="h-4 w-4 border-2 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
             ) : (
-              <Sparkles className="h-4 w-4" />
+              <RefreshCw className="h-4 w-4" />
             )}
             {isAutofilling ? "Fetching..." : "Autofill"}
           </Button>
