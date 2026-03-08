@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.analyze-brand-social]
 verify_jwt = false
+
+[functions.firecrawl-search]
+verify_jwt = false
