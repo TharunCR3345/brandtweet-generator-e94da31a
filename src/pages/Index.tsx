@@ -85,7 +85,7 @@ const Index = () => {
                     <Search className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">Social Media Analysis</p>
+                    <p className="text-[15px] font-semibold text-foreground">Social Media Analysis</p>
                     <p className="text-sm text-muted-foreground mt-0.5">Scans your brand's posts across Twitter/X, Instagram & LinkedIn to learn your voice.</p>
                   </div>
                 </div>
