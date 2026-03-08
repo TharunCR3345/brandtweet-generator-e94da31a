@@ -47,7 +47,7 @@ function PlatformCard({ platform }: { platform: SocialPlatform }) {
               <div className="flex items-center gap-3 mt-3">
                 <Badge variant="outline" className="text-xs font-normal">{post.type}</Badge>
                 <span className="text-xs text-muted-foreground">{post.engagement}</span>
-                {post.url && (
+                {post.url && /^https?:\/\/(x\.com|twitter\.com|instagram\.com|linkedin\.com)\//.test(post.url) && (
                   <a
                     href={post.url}
                     target="_blank"
