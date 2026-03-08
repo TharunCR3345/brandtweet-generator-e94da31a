@@ -138,45 +138,28 @@ function AudienceCard({ audience }: { audience: AudienceProfile }) {
 interface SocialAnalysisDisplayProps {
   analysis: SocialAnalysisResult;
   brandName: string;
-  onProceed: () => void;
-  isGenerating: boolean;
 }
 
-export function SocialAnalysisDisplay({ analysis, brandName, onProceed, isGenerating }: SocialAnalysisDisplayProps) {
+export function SocialAnalysisDisplay({ analysis, brandName }: SocialAnalysisDisplayProps) {
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto space-y-8 pb-8 scrollbar-hide fade-in">
-        {/* Summary */}
-        <div className="border border-border rounded-xl bg-card p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-3">Social Media Analysis — {brandName}</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">{analysis.overallSummary}</p>
-        </div>
-
-        {/* Two-column: Platforms left, Voice/Audience right */}
-        <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
-          {/* Platforms — 3 cols */}
-          <div className="xl:col-span-3 space-y-4">
-            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Platforms Analyzed</h4>
-            {analysis.platforms.map((p) => (
-              <PlatformCard key={p.platform} platform={p} />
-            ))}
-          </div>
-
-          {/* Voice + Audience — 2 cols */}
-          <div className="xl:col-span-2 space-y-6">
-            <VoiceProfileCard voice={analysis.voiceProfile} />
-            <AudienceCard audience={analysis.audienceProfile} />
-          </div>
-        </div>
+    <div className="flex-1 overflow-y-auto space-y-8 pb-8 scrollbar-hide fade-in">
+      {/* Summary */}
+      <div className="border border-border rounded-xl bg-card p-6">
+        <h3 className="text-lg font-semibold text-foreground mb-3">Social Media Analysis — {brandName}</h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">{analysis.overallSummary}</p>
       </div>
 
-      {/* Bottom button */}
-      <div className="flex-shrink-0 pt-5 pb-2">
-        <div className="max-w-md mx-auto">
-          <Button onClick={onProceed} disabled={isGenerating} className="w-full h-11 text-sm font-medium gap-2">
-            {isGenerating ? "Generating Tweets..." : "Generate 10 Tweets Based on This Analysis"}
-            {!isGenerating && <ChevronRight className="h-4 w-4" />}
-          </Button>
+      {/* Two-column: Platforms left, Voice/Audience right */}
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
+        <div className="xl:col-span-3 space-y-4">
+          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Platforms Analyzed</h4>
+          {analysis.platforms.map((p) => (
+            <PlatformCard key={p.platform} platform={p} />
+          ))}
+        </div>
+        <div className="xl:col-span-2 space-y-6">
+          <VoiceProfileCard voice={analysis.voiceProfile} />
+          <AudienceCard audience={analysis.audienceProfile} />
         </div>
       </div>
     </div>
