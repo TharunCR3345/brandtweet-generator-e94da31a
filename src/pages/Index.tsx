@@ -4,8 +4,9 @@ import { SocialAnalysisDisplay } from "@/components/SocialAnalysisDisplay";
 import { generateTweets, analyzeBrandSocial, type BrandInput, type SocialAnalysisResult } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { Twitter, Zap, BarChart2, Users, Search, ArrowLeft, ChevronRight } from "lucide-react";
+import { Twitter, Zap, BarChart2, Users, Search, ArrowLeft, ChevronRight, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [step, setStep] = useState<"input" | "analysis">("input");
