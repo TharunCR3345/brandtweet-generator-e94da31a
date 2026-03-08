@@ -70,10 +70,10 @@ const Index = () => {
             {/* Left — About */}
             <div className="space-y-8">
               <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl font-bold text-foreground tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight leading-[1.15]">
                   Generate authentic,<br />on-brand tweets<br />in seconds.
                 </h1>
-                <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
+                <p className="text-base text-muted-foreground leading-relaxed max-w-md">
                   Our AI first analyzes your brand's real social media presence across Twitter/X, Instagram & LinkedIn — then generates tweets that match your actual voice.
                 </p>
               </div>
