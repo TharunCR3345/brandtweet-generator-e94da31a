@@ -213,7 +213,7 @@ const Results = () => {
         </aside>
 
         {/* Right — Tweet feed */}
-        <section className="flex-1 min-w-0 max-w-2xl flex flex-col pt-8 overflow-hidden">
+        <section className="flex-1 min-w-0 max-w-3xl flex flex-col pt-8 overflow-hidden">
           <div className="flex items-center justify-between mb-5 flex-shrink-0">
             <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Generated Tweets</h2>
             <span className="text-xs text-muted-foreground tabular-nums">{tweets.length} tweets</span>
