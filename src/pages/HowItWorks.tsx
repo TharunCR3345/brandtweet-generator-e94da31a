@@ -1,4 +1,4 @@
-import { Twitter, ArrowLeft, Search, Brain, Sparkles, FileText, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Twitter, ArrowLeft, Search, Brain, Sparkles, FileText, ArrowRight, CheckCircle2, Code2, Database, Cloud, Cpu, Layers, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -49,6 +49,54 @@ const steps = [
   },
 ];
 
+const techStack = [
+  {
+    icon: Code2,
+    name: "React + TypeScript",
+    category: "Frontend",
+    description: "Modern component-based UI built with React 18 and TypeScript for type safety, fast rendering, and maintainable code architecture.",
+  },
+  {
+    icon: Layers,
+    name: "Tailwind CSS",
+    category: "Styling",
+    description: "Utility-first CSS framework enabling rapid UI development with a consistent design system, responsive layouts, and semantic color tokens.",
+  },
+  {
+    icon: Cloud,
+    name: "Supabase Edge Functions",
+    category: "Backend",
+    description: "Serverless Deno-based functions running at the edge for low-latency API calls, handling AI requests and brand data processing securely.",
+  },
+  {
+    icon: Cpu,
+    name: "Google Gemini AI",
+    category: "AI Engine",
+    description: "Powered by Google's Gemini Flash models for ultra-fast social media analysis and tweet generation with optimized JSON-only prompts.",
+  },
+  {
+    icon: Database,
+    name: "Supabase Platform",
+    category: "Infrastructure",
+    description: "Open-source Firebase alternative providing authentication, database, and serverless functions with automatic scaling and built-in security.",
+  },
+  {
+    icon: Globe,
+    name: "Vite",
+    category: "Build Tool",
+    description: "Next-generation frontend build tool offering instant hot module replacement (HMR), optimized production builds, and lightning-fast dev server.",
+  },
+];
+
+const flowSteps = [
+  { label: "User Input", sub: "Brand name + details" },
+  { label: "AI Autofill", sub: "Gemini Flash Lite" },
+  { label: "Social Scan", sub: "Twitter, IG, LinkedIn" },
+  { label: "Voice Profile", sub: "Tone & style analysis" },
+  { label: "Tweet Gen", sub: "10 tweets, 4 styles" },
+  { label: "Results", sub: "Copy & post" },
+];
+
 export default function HowItWorks() {
   const navigate = useNavigate();
 
@@ -84,18 +132,65 @@ export default function HowItWorks() {
           </p>
         </section>
 
+        {/* Workflow Diagram */}
+        <section className="w-full max-w-5xl mx-auto px-6 sm:px-10 pb-16">
+          <h2 className="text-2xl font-bold text-foreground text-center mb-2">Workflow Diagram</h2>
+          <p className="text-muted-foreground text-center mb-8 text-sm">Visual overview of the complete data flow</p>
+
+          <div className="rounded-xl border border-border bg-card p-6 sm:p-8 overflow-x-auto">
+            <div className="flex items-center justify-between min-w-[700px] gap-2">
+              {flowSteps.map((step, i) => (
+                <div key={step.label} className="flex items-center gap-2">
+                  <div className="flex flex-col items-center text-center min-w-[100px]">
+                    <div className={`h-12 w-12 rounded-xl flex items-center justify-center text-sm font-bold mb-2 ${i === 0 || i === flowSteps.length - 1 ? 'bg-primary text-primary-foreground' : 'bg-primary/10 text-primary'}`}>
+                      {i + 1}
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">{step.label}</span>
+                    <span className="text-xs text-muted-foreground mt-0.5">{step.sub}</span>
+                  </div>
+                  {i < flowSteps.length - 1 && (
+                    <div className="flex items-center px-1">
+                      <div className="w-8 h-px bg-border" />
+                      <ArrowRight className="h-4 w-4 text-muted-foreground/50 -ml-1" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Architecture layers */}
+            <div className="mt-8 pt-6 border-t border-border">
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="rounded-lg bg-primary/5 border border-primary/10 py-3 px-4">
+                  <p className="text-xs font-bold text-primary uppercase tracking-wider mb-1">Frontend</p>
+                  <p className="text-xs text-muted-foreground">React + Tailwind CSS</p>
+                </div>
+                <div className="rounded-lg bg-primary/5 border border-primary/10 py-3 px-4">
+                  <p className="text-xs font-bold text-primary uppercase tracking-wider mb-1">Backend</p>
+                  <p className="text-xs text-muted-foreground">Supabase Edge Functions</p>
+                </div>
+                <div className="rounded-lg bg-primary/5 border border-primary/10 py-3 px-4">
+                  <p className="text-xs font-bold text-primary uppercase tracking-wider mb-1">AI Engine</p>
+                  <p className="text-xs text-muted-foreground">Google Gemini Flash</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Steps */}
         <section className="w-full max-w-5xl mx-auto px-6 sm:px-10 pb-16">
+          <h2 className="text-2xl font-bold text-foreground text-center mb-2">Step-by-Step Process</h2>
+          <p className="text-muted-foreground text-center mb-8 text-sm">Detailed breakdown of each stage</p>
+
           <div className="space-y-6">
             {steps.map((step, i) => (
               <div key={step.number} className="relative">
-                {/* Connector line */}
                 {i < steps.length - 1 && (
                   <div className="absolute left-[2.25rem] top-full w-px h-6 bg-border hidden sm:block" />
                 )}
 
                 <div className="flex gap-6 items-start p-6 sm:p-8 rounded-xl border border-border bg-card">
-                  {/* Step number + icon */}
                   <div className="flex-shrink-0 hidden sm:flex flex-col items-center gap-2">
                     <div className="h-[4.5rem] w-[4.5rem] rounded-2xl bg-primary/10 flex items-center justify-center">
                       <step.icon className="h-7 w-7 text-primary" />
@@ -103,7 +198,6 @@ export default function HowItWorks() {
                     <span className="text-xs font-bold text-muted-foreground tracking-widest uppercase">Step {step.number}</span>
                   </div>
 
-                  {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2 sm:hidden">
                       <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -123,13 +217,35 @@ export default function HowItWorks() {
                     </ul>
                   </div>
 
-                  {/* Arrow indicator for desktop */}
                   {i < steps.length - 1 && (
                     <div className="hidden lg:flex items-center self-center">
                       <ArrowRight className="h-5 w-5 text-muted-foreground/40" />
                     </div>
                   )}
                 </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Tech Stack */}
+        <section className="w-full max-w-5xl mx-auto px-6 sm:px-10 pb-16">
+          <h2 className="text-2xl font-bold text-foreground text-center mb-2">Technology Stack</h2>
+          <p className="text-muted-foreground text-center mb-8 text-sm">The tools and frameworks powering this application</p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {techStack.map((tech) => (
+              <div key={tech.name} className="rounded-xl border border-border bg-card p-6 hover:border-primary/30 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <tech.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-foreground">{tech.name}</h3>
+                    <span className="text-xs text-primary font-medium uppercase tracking-wider">{tech.category}</span>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">{tech.description}</p>
               </div>
             ))}
           </div>
