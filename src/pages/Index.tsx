@@ -4,8 +4,9 @@ import { SocialAnalysisDisplay } from "@/components/SocialAnalysisDisplay";
 import { generateTweets, analyzeBrandSocial, type BrandInput, type SocialAnalysisResult } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { Twitter, Zap, BarChart2, Users, Search, ArrowLeft, ChevronRight } from "lucide-react";
+import { Twitter, Zap, BarChart2, Users, Search, ArrowLeft, ChevronRight, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [step, setStep] = useState<"input" | "analysis">("input");
@@ -66,6 +67,12 @@ const Index = () => {
             <Twitter className="h-4 w-4 text-primary-foreground" />
           </div>
           <span className="text-base font-semibold text-foreground tracking-tight">BrandTweet Generator</span>
+          {step === "input" && (
+            <Link to="/how-it-works" className="ml-auto text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
+              <HelpCircle className="h-4 w-4" />
+              How it works
+            </Link>
+          )}
           {step === "analysis" && (
             <Button size="sm" onClick={handleGenerate} disabled={isGenerating || !brandInput || !socialAnalysis} className="ml-auto gap-1.5">
               {isGenerating ? "Generating..." : "Generate Tweets"}
