@@ -94,7 +94,7 @@ const Index = () => {
                     <Zap className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">AI Voice Matching</p>
+                    <p className="text-[15px] font-semibold text-foreground">AI Voice Matching</p>
                     <p className="text-sm text-muted-foreground mt-0.5">Generates tweets that match your real tone, slang, and writing patterns.</p>
                   </div>
                 </div>
