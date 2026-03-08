@@ -149,8 +149,6 @@ const Index = () => {
                 <SocialAnalysisDisplay
                   analysis={socialAnalysis}
                   brandName={brandInput.brandName}
-                  onProceed={handleGenerate}
-                  isGenerating={isGenerating}
                 />
               </div>
             )}
