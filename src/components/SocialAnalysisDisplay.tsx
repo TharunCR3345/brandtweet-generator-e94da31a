@@ -156,8 +156,8 @@ export function SocialAnalysisDisplay({ analysis, brandName, onProceed, isGenera
         </div>
       </div>
 
-      {/* Fixed bottom button */}
-      <div className="flex-shrink-0 border-t border-border bg-background pt-3 pb-1">
+      {/* Bottom button */}
+      <div className="flex-shrink-0 pt-4 pb-2">
         <div className="max-w-md mx-auto">
           <Button onClick={onProceed} disabled={isGenerating} className="w-full h-11 text-sm font-medium gap-2">
             {isGenerating ? "Generating Tweets..." : "Generate 10 Tweets Based on This Analysis"}

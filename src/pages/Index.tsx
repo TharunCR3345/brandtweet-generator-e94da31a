@@ -56,6 +56,12 @@ const Index = () => {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-card">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 h-14 flex items-center gap-3">
+          {step === "analysis" && (
+            <Button variant="ghost" size="sm" onClick={() => setStep("input")} className="gap-1.5 -ml-2 px-3 mr-1">
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+          )}
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
             <Twitter className="h-4 w-4 text-primary-foreground" />
           </div>
@@ -129,11 +135,6 @@ const Index = () => {
         ) : (
           <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-8 flex flex-col h-[calc(100vh-6.5rem)]">
             <div className="flex items-center gap-3 mb-6 flex-shrink-0">
-              <Button variant="ghost" size="sm" onClick={() => setStep("input")} className="gap-1.5 -ml-2 px-3">
-                <ArrowLeft className="h-4 w-4" />
-                Back
-              </Button>
-              <div className="h-4 w-px bg-border" />
               <span className="text-sm text-muted-foreground">Step 2: Review analysis & generate tweets</span>
             </div>
 
