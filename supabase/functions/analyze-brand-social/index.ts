@@ -15,24 +15,17 @@ serve(async (req) => {
     const API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!API_KEY) throw new Error("AI API key is not configured");
 
-    // Step 1: Use AI to search and analyze the brand's social media presence
-    const searchPrompt = `You are a social media analyst. Research and analyze the brand "${brandName}" across Twitter/X, Instagram, and LinkedIn.
+    const prompt = `Analyze "${brandName}" social media presence across Twitter/X, Instagram, LinkedIn. Return JSON only, no markdown.
 
-Based on your knowledge of this brand's real social media presence, provide:
+JSON format:
+{
+  "platforms": [{ "platform": "Twitter/X"|"Instagram"|"LinkedIn", "handle": "@handle", "followerEstimate": "~100K", "postingFrequency": "3x/week", "samplePosts": [{ "text": "post text", "engagement": "2K likes", "type": "promotional|organic|engagement", "url": "https://real-url-to-post" }] }],
+  "voiceProfile": { "tone": "", "personality": "", "writingPatterns": [""], "emojiStyle": "", "hashtagStyle": "", "contentThemes": [""], "engagementStyle": "", "uniqueTraits": [""] },
+  "audienceProfile": { "demographics": "", "interests": [""], "engagementPatterns": "" },
+  "overallSummary": ""
+}
 
-1. **Recent Post Examples**: Find or reconstruct 8-12 realistic recent posts/tweets from this brand across platforms (Twitter/X, Instagram, LinkedIn). These should reflect what the brand actually posts — not generic marketing copy. For each post, provide the REAL direct URL to the actual post on the platform (e.g. https://twitter.com/brand/status/123, https://www.instagram.com/p/ABC123/, https://www.linkedin.com/posts/brand-activity-123). If you cannot find the exact URL, construct a plausible one based on the brand's known handle.
-
-2. **Voice Analysis**: Based on these posts, analyze:
-   - Overall tone and personality
-   - Writing patterns (sentence structure, punctuation habits, emoji usage, hashtag style)
-   - Content themes they focus on
-   - How they engage with their audience
-   - Platform-specific differences in their voice
-   - Slang, abbreviations, or brand-specific language they use
-
-3. **Audience Analysis**: Who engages with their content and how
-
-Be specific and grounded. Reference actual campaigns, product lines, or events where possible.`;
+Include 2-3 sample posts per platform with real URLs. Be concise and specific.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -41,82 +34,12 @@ Be specific and grounded. Reference actual campaigns, product lines, or events w
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-2.5-flash-lite",
         messages: [
-          { role: "system", content: "You are a social media research analyst. You have deep knowledge of how major and emerging brands communicate on social media. Always respond via the tool call with accurate, specific analysis." },
-          { role: "user", content: searchPrompt },
+          { role: "system", content: "You are a social media analyst. Respond with valid JSON only, no markdown fences." },
+          { role: "user", content: prompt },
         ],
-        tools: [
-          {
-            type: "function",
-            function: {
-              name: "social_media_analysis",
-              description: "Return comprehensive social media analysis for a brand",
-              parameters: {
-                type: "object",
-                properties: {
-                  platforms: {
-                    type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        platform: { type: "string", enum: ["Twitter/X", "Instagram", "LinkedIn"] },
-                        handle: { type: "string" },
-                        followerEstimate: { type: "string" },
-                        postingFrequency: { type: "string" },
-                        samplePosts: {
-                          type: "array",
-                          items: {
-                            type: "object",
-                            properties: {
-                              text: { type: "string" },
-                              engagement: { type: "string" },
-                              type: { type: "string" },
-                              url: { type: "string", description: "Direct URL to the actual post on the platform. Must be a real, valid link." },
-                            },
-                            required: ["text", "engagement", "type", "url"],
-                            additionalProperties: false,
-                          },
-                        },
-                      },
-                      required: ["platform", "handle", "followerEstimate", "postingFrequency", "samplePosts"],
-                      additionalProperties: false,
-                    },
-                  },
-                  voiceProfile: {
-                    type: "object",
-                    properties: {
-                      tone: { type: "string" },
-                      personality: { type: "string" },
-                      writingPatterns: { type: "array", items: { type: "string" } },
-                      emojiStyle: { type: "string" },
-                      hashtagStyle: { type: "string" },
-                      contentThemes: { type: "array", items: { type: "string" } },
-                      engagementStyle: { type: "string" },
-                      uniqueTraits: { type: "array", items: { type: "string" } },
-                    },
-                    required: ["tone", "personality", "writingPatterns", "emojiStyle", "hashtagStyle", "contentThemes", "engagementStyle", "uniqueTraits"],
-                    additionalProperties: false,
-                  },
-                  audienceProfile: {
-                    type: "object",
-                    properties: {
-                      demographics: { type: "string" },
-                      interests: { type: "array", items: { type: "string" } },
-                      engagementPatterns: { type: "string" },
-                    },
-                    required: ["demographics", "interests", "engagementPatterns"],
-                    additionalProperties: false,
-                  },
-                  overallSummary: { type: "string" },
-                },
-                required: ["platforms", "voiceProfile", "audienceProfile", "overallSummary"],
-                additionalProperties: false,
-              },
-            },
-          },
-        ],
-        tool_choice: { type: "function", function: { name: "social_media_analysis" } },
+        temperature: 0.3,
       }),
     });
 
@@ -127,7 +50,7 @@ Be specific and grounded. Reference actual campaigns, product lines, or events w
         });
       }
       if (response.status === 402) {
-        return new Response(JSON.stringify({ error: "AI credits exhausted. Please add credits in Settings → Workspace → Usage." }), {
+        return new Response(JSON.stringify({ error: "AI credits exhausted." }), {
           status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
@@ -137,10 +60,12 @@ Be specific and grounded. Reference actual campaigns, product lines, or events w
     }
 
     const data = await response.json();
-    const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall) throw new Error("No tool call in response");
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) throw new Error("No content in response");
 
-    const result = JSON.parse(toolCall.function.arguments);
+    // Parse JSON from response (strip markdown fences if present)
+    const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+    const result = JSON.parse(jsonStr);
 
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
