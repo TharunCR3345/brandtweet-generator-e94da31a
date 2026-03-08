@@ -112,7 +112,7 @@ const Index = () => {
                     <Users className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">10 Tweets Per Run</p>
+                    <p className="text-[15px] font-semibold text-foreground">10 Tweets Per Run</p>
                     <p className="text-sm text-muted-foreground mt-0.5">Get a full batch of ready-to-post tweets optimized for engagement.</p>
                   </div>
                 </div>
