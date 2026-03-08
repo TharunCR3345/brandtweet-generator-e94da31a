@@ -133,35 +133,36 @@ interface SocialAnalysisDisplayProps {
 
 export function SocialAnalysisDisplay({ analysis, brandName, onProceed, isGenerating }: SocialAnalysisDisplayProps) {
   return (
-    <div className="space-y-6 fade-in">
-      {/* Summary */}
-      <div className="border border-border rounded-lg bg-card p-5">
-        <h3 className="text-base font-semibold text-foreground mb-2">Social Media Analysis — {brandName}</h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">{analysis.overallSummary}</p>
-      </div>
-
-      {/* Two-column: Platforms + Voice/Audience */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Platforms — takes 2 cols */}
-        <div className="lg:col-span-2 space-y-3">
-          <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Platforms Analyzed</h4>
-          {analysis.platforms.map((p) => (
-            <PlatformCard key={p.platform} platform={p} />
-          ))}
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto space-y-6 pb-6 scrollbar-hide fade-in">
+        {/* Summary */}
+        <div className="border border-border rounded-lg bg-card p-5">
+          <h3 className="text-base font-semibold text-foreground mb-2">Social Media Analysis — {brandName}</h3>
+          <p className="text-sm text-muted-foreground leading-relaxed">{analysis.overallSummary}</p>
         </div>
 
-        {/* Voice + Audience — right column */}
-        <div className="space-y-4">
-          <VoiceProfileCard voice={analysis.voiceProfile} />
-          <AudienceCard audience={analysis.audienceProfile} />
+        {/* Two-column: Platforms + Voice/Audience */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Platforms Analyzed</h4>
+            {analysis.platforms.map((p) => (
+              <PlatformCard key={p.platform} platform={p} />
+            ))}
+          </div>
+          <div className="space-y-4">
+            <VoiceProfileCard voice={analysis.voiceProfile} />
+            <AudienceCard audience={analysis.audienceProfile} />
+          </div>
         </div>
       </div>
 
-      {/* Proceed button */}
-      <Button onClick={onProceed} disabled={isGenerating} className="w-full h-12 text-sm font-medium gap-2">
-        {isGenerating ? "Generating Tweets..." : "Generate 10 Tweets Based on This Analysis"}
-        {!isGenerating && <ChevronRight className="h-4 w-4" />}
-      </Button>
+      {/* Fixed bottom button */}
+      <div className="flex-shrink-0 border-t border-border bg-background pt-4 pb-2">
+        <Button onClick={onProceed} disabled={isGenerating} className="w-full h-12 text-sm font-medium gap-2">
+          {isGenerating ? "Generating Tweets..." : "Generate 10 Tweets Based on This Analysis"}
+          {!isGenerating && <ChevronRight className="h-4 w-4" />}
+        </Button>
+      </div>
     </div>
   );
 }
