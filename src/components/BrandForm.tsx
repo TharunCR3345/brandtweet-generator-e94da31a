@@ -88,7 +88,7 @@ export function BrandForm({ onSubmit, isLoading, buttonText }: BrandFormProps) {
       </div>
 
       <Button type="submit" disabled={isLoading || !brandName} className="w-full h-11 text-sm font-medium">
-        {isLoading ? "Generating..." : "Generate 10 Tweets"}
+        {buttonText || (isLoading ? "Generating..." : "Generate 10 Tweets")}
       </Button>
     </form>
   );
