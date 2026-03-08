@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { SocialAnalysisResult, SocialPlatform, VoiceProfile, AudienceProfile } from "@/lib/api";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Twitter, Instagram, Linkedin, ChevronRight, MessageSquare, Users, Sparkles, Eye } from "lucide-react";
+import { Twitter, Instagram, Linkedin, ChevronRight, ChevronDown, MessageSquare, Users, ExternalLink } from "lucide-react";
 
 const platformIcon: Record<string, React.ReactNode> = {
   "Twitter/X": <Twitter className="h-4 w-4" />,
@@ -23,28 +23,38 @@ function PlatformCard({ platform }: { platform: SocialPlatform }) {
           {platformIcon[platform.platform] || <MessageSquare className="h-4 w-4" />}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-foreground">{platform.platform}</span>
-            <span className="text-xs text-muted-foreground">{platform.handle}</span>
-          </div>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground mt-0.5">
-            <span>{platform.followerEstimate} followers</span>
-            <span>·</span>
-            <span>{platform.postingFrequency}</span>
+          <span className="text-sm font-semibold text-foreground">{platform.platform}</span>
+          <span className="text-xs text-muted-foreground ml-2">{platform.handle}</span>
+          <div className="text-xs text-muted-foreground mt-0.5">
+            {platform.followerEstimate} followers · {platform.postingFrequency}
           </div>
         </div>
-        <ChevronRight className={`h-4 w-4 text-muted-foreground transition-transform ${expanded ? "rotate-90" : ""}`} />
+        {expanded ? (
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        ) : (
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        )}
       </button>
 
       {expanded && (
         <div className="border-t border-border px-4 py-3 space-y-2">
           <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Sample Posts</span>
           {platform.samplePosts.map((post, i) => (
-            <div key={i} className="bg-muted/50 rounded-md px-3 py-2">
-              <p className="text-sm text-foreground leading-relaxed">{post.text}</p>
-              <div className="flex items-center gap-2 mt-1.5">
+            <div key={i} className="bg-muted/40 rounded-md px-3 py-2.5">
+              <p className="text-[13px] text-foreground leading-relaxed">{post.text}</p>
+              <div className="flex items-center gap-2 mt-2">
                 <Badge variant="outline" className="text-[10px] font-normal">{post.type}</Badge>
                 <span className="text-[10px] text-muted-foreground">{post.engagement}</span>
+                {post.url && (
+                  <a
+                    href={post.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-auto flex items-center gap-1 text-[11px] text-primary hover:underline"
+                  >
+                    View Post <ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
               </div>
             </div>
           ))}
@@ -56,37 +66,35 @@ function PlatformCard({ platform }: { platform: SocialPlatform }) {
 
 function VoiceProfileCard({ voice }: { voice: VoiceProfile }) {
   return (
-    <div className="border border-border rounded-lg bg-card p-4 space-y-4">
-      <div className="flex items-center gap-2 mb-1">
-        <Sparkles className="h-4 w-4 text-primary" />
-        <span className="text-sm font-semibold text-foreground">Voice Profile</span>
-      </div>
+    <div className="border border-border rounded-lg bg-card p-4 space-y-3">
+      <span className="text-sm font-semibold text-foreground">Voice Profile</span>
 
-      <div className="grid gap-3 sm:grid-cols-2 text-sm">
-        <div><span className="text-muted-foreground">Tone:</span> <span className="text-foreground">{voice.tone}</span></div>
-        <div><span className="text-muted-foreground">Personality:</span> <span className="text-foreground">{voice.personality}</span></div>
-        <div><span className="text-muted-foreground">Emoji:</span> <span className="text-foreground">{voice.emojiStyle}</span></div>
-        <div><span className="text-muted-foreground">Hashtags:</span> <span className="text-foreground">{voice.hashtagStyle}</span></div>
-      </div>
+      <ul className="space-y-1.5 text-[13px] text-foreground list-disc list-inside marker:text-muted-foreground">
+        <li><span className="text-muted-foreground">Tone:</span> {voice.tone}</li>
+        <li><span className="text-muted-foreground">Personality:</span> {voice.personality}</li>
+        <li><span className="text-muted-foreground">Emoji:</span> {voice.emojiStyle}</li>
+        <li><span className="text-muted-foreground">Hashtags:</span> {voice.hashtagStyle}</li>
+        <li><span className="text-muted-foreground">Engagement:</span> {voice.engagementStyle}</li>
+      </ul>
 
       <div>
         <span className="text-xs text-muted-foreground uppercase tracking-wider">Writing Patterns</span>
         <div className="flex flex-wrap gap-1.5 mt-1.5">
-          {voice.writingPatterns.map((p) => <Badge key={p} variant="secondary" className="text-xs font-normal">{p}</Badge>)}
+          {voice.writingPatterns.map((p) => <Badge key={p} variant="secondary" className="text-[11px] font-normal">{p}</Badge>)}
         </div>
       </div>
 
       <div>
         <span className="text-xs text-muted-foreground uppercase tracking-wider">Unique Traits</span>
         <div className="flex flex-wrap gap-1.5 mt-1.5">
-          {voice.uniqueTraits.map((t) => <Badge key={t} variant="outline" className="text-xs font-normal text-primary border-primary/30">{t}</Badge>)}
+          {voice.uniqueTraits.map((t) => <Badge key={t} variant="outline" className="text-[11px] font-normal text-primary border-primary/30">{t}</Badge>)}
         </div>
       </div>
 
       <div>
         <span className="text-xs text-muted-foreground uppercase tracking-wider">Content Themes</span>
         <div className="flex flex-wrap gap-1.5 mt-1.5">
-          {voice.contentThemes.map((t) => <Badge key={t} variant="secondary" className="text-xs font-normal">{t}</Badge>)}
+          {voice.contentThemes.map((t) => <Badge key={t} variant="secondary" className="text-[11px] font-normal">{t}</Badge>)}
         </div>
       </div>
     </div>
@@ -96,22 +104,18 @@ function VoiceProfileCard({ voice }: { voice: VoiceProfile }) {
 function AudienceCard({ audience }: { audience: AudienceProfile }) {
   return (
     <div className="border border-border rounded-lg bg-card p-4 space-y-3">
-      <div className="flex items-center gap-2 mb-1">
+      <div className="flex items-center gap-2">
         <Users className="h-4 w-4 text-primary" />
-        <span className="text-sm font-semibold text-foreground">Audience Profile</span>
+        <span className="text-sm font-semibold text-foreground">Audience</span>
       </div>
-      <div className="text-sm">
-        <span className="text-muted-foreground">Demographics:</span>{" "}
-        <span className="text-foreground">{audience.demographics}</span>
-      </div>
-      <div className="text-sm">
-        <span className="text-muted-foreground">Engagement:</span>{" "}
-        <span className="text-foreground">{audience.engagementPatterns}</span>
-      </div>
+      <ul className="space-y-1.5 text-[13px] text-foreground list-disc list-inside marker:text-muted-foreground">
+        <li><span className="text-muted-foreground">Demographics:</span> {audience.demographics}</li>
+        <li><span className="text-muted-foreground">Engagement:</span> {audience.engagementPatterns}</li>
+      </ul>
       <div>
         <span className="text-xs text-muted-foreground uppercase tracking-wider">Interests</span>
         <div className="flex flex-wrap gap-1.5 mt-1.5">
-          {audience.interests.map((i) => <Badge key={i} variant="secondary" className="text-xs font-normal">{i}</Badge>)}
+          {audience.interests.map((i) => <Badge key={i} variant="secondary" className="text-[11px] font-normal">{i}</Badge>)}
         </div>
       </div>
     </div>
@@ -129,14 +133,9 @@ export function SocialAnalysisDisplay({ analysis, brandName, onProceed, isGenera
   return (
     <div className="space-y-5 fade-in">
       {/* Summary */}
-      <div className="border border-primary/20 rounded-lg bg-primary/5 p-4">
-        <div className="flex items-start gap-3">
-          <Eye className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-          <div>
-            <h3 className="text-sm font-semibold text-foreground mb-1">Social Media Analysis — {brandName}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{analysis.overallSummary}</p>
-          </div>
-        </div>
+      <div className="border border-border rounded-lg bg-card p-4">
+        <h3 className="text-sm font-semibold text-foreground mb-1.5">Social Media Analysis — {brandName}</h3>
+        <p className="text-[13px] text-muted-foreground leading-relaxed">{analysis.overallSummary}</p>
       </div>
 
       {/* Platforms */}
