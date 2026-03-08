@@ -145,7 +145,18 @@ export function SocialAnalysisDisplay({ analysis, brandName }: SocialAnalysisDis
     <div className="flex-1 overflow-y-auto space-y-8 pb-8 scrollbar-hide fade-in">
       {/* Summary */}
       <div className="border border-border rounded-xl bg-card p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-3">Social Media Analysis — {brandName}</h3>
+        <div className="flex items-center gap-3 mb-3">
+          <h3 className="text-lg font-semibold text-foreground">Social Media Analysis — {brandName}</h3>
+          {(analysis as any).dataSource === "real-time-scrape" ? (
+            <Badge className="bg-green-500/15 text-green-600 border-green-500/30 text-xs font-medium">
+              ✓ Real Posts Scraped
+            </Badge>
+          ) : (
+            <Badge variant="outline" className="text-xs font-normal text-muted-foreground">
+              AI-inferred
+            </Badge>
+          )}
+        </div>
         <p className="text-sm text-muted-foreground leading-relaxed">{analysis.overallSummary}</p>
       </div>
 
