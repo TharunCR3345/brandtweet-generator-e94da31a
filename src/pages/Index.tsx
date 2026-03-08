@@ -70,10 +70,10 @@ const Index = () => {
             {/* Left — About */}
             <div className="space-y-8">
               <div className="space-y-4">
-                <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-bold text-foreground tracking-tight leading-[1.15]">
                   Generate authentic,<br />on-brand tweets<br />in seconds.
                 </h1>
-                <p className="text-base text-muted-foreground leading-relaxed max-w-md">
+                <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
                   Our AI first analyzes your brand's real social media presence across Twitter/X, Instagram & LinkedIn — then generates tweets that match your actual voice.
                 </p>
               </div>
@@ -85,7 +85,7 @@ const Index = () => {
                     <Search className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">Social Media Analysis</p>
+                    <p className="text-[15px] font-semibold text-foreground">Social Media Analysis</p>
                     <p className="text-sm text-muted-foreground mt-0.5">Scans your brand's posts across Twitter/X, Instagram & LinkedIn to learn your voice.</p>
                   </div>
                 </div>
@@ -94,7 +94,7 @@ const Index = () => {
                     <Zap className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">AI Voice Matching</p>
+                    <p className="text-[15px] font-semibold text-foreground">AI Voice Matching</p>
                     <p className="text-sm text-muted-foreground mt-0.5">Generates tweets that match your real tone, slang, and writing patterns.</p>
                   </div>
                 </div>
@@ -103,7 +103,7 @@ const Index = () => {
                     <BarChart2 className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">4 Tweet Styles</p>
+                    <p className="text-[15px] font-semibold text-foreground">4 Tweet Styles</p>
                     <p className="text-sm text-muted-foreground mt-0.5">Conversational, promotional, witty, and informative — all in one run.</p>
                   </div>
                 </div>
@@ -112,7 +112,7 @@ const Index = () => {
                     <Users className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">10 Tweets Per Run</p>
+                    <p className="text-[15px] font-semibold text-foreground">10 Tweets Per Run</p>
                     <p className="text-sm text-muted-foreground mt-0.5">Get a full batch of ready-to-post tweets optimized for engagement.</p>
                   </div>
                 </div>
@@ -127,7 +127,7 @@ const Index = () => {
             </div>
           </div>
         ) : (
-          <div className="w-full max-w-4xl mx-auto px-6 sm:px-10 py-8">
+          <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-8">
             <div className="flex items-center gap-3 mb-6">
               <Button variant="ghost" size="sm" onClick={() => setStep("input")} className="gap-1.5 -ml-2">
                 <ArrowLeft className="h-4 w-4" />
