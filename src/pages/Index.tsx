@@ -92,6 +92,13 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-card py-4">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 text-center">
+          <p className="text-sm text-muted-foreground">Developed by <span className="font-semibold text-foreground">Tharun C R</span></p>
+        </div>
+      </footer>
     </div>
   );
 };
