@@ -33,6 +33,7 @@ export interface SocialPlatformPost {
   text: string;
   engagement: string;
   type: string;
+  url?: string;
 }
 
 export interface SocialPlatform {

@@ -20,7 +20,7 @@ serve(async (req) => {
 
 Based on your knowledge of this brand's real social media presence, provide:
 
-1. **Recent Post Examples**: Find or reconstruct 8-12 realistic recent posts/tweets from this brand across platforms (Twitter/X, Instagram, LinkedIn). These should reflect what the brand actually posts — not generic marketing copy.
+1. **Recent Post Examples**: Find or reconstruct 8-12 realistic recent posts/tweets from this brand across platforms (Twitter/X, Instagram, LinkedIn). These should reflect what the brand actually posts — not generic marketing copy. For each post, provide the REAL direct URL to the actual post on the platform (e.g. https://twitter.com/brand/status/123, https://www.instagram.com/p/ABC123/, https://www.linkedin.com/posts/brand-activity-123). If you cannot find the exact URL, construct a plausible one based on the brand's known handle.
 
 2. **Voice Analysis**: Based on these posts, analyze:
    - Overall tone and personality
