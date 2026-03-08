@@ -30,11 +30,11 @@ const Index = () => {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="border-b border-border bg-card">
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 h-14 flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-            <Twitter className="h-4 w-4 text-primary-foreground" />
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 h-20 flex items-center gap-3">
+          <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
+            <Twitter className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-base font-semibold text-foreground tracking-tight">BrandTweet Generator</span>
+          <span className="text-lg font-semibold text-foreground tracking-tight">BrandTweet Generator</span>
         </div>
       </header>
 
