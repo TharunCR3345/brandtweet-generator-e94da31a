@@ -1,20 +1,45 @@
 import { useState } from "react";
 import { BrandForm } from "@/components/BrandForm";
-import { generateTweets, type BrandInput } from "@/lib/api";
+import { SocialAnalysisDisplay } from "@/components/SocialAnalysisDisplay";
+import { generateTweets, analyzeBrandSocial, type BrandInput, type SocialAnalysisResult } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { Twitter, Zap, BarChart2, Users } from "lucide-react";
+import { Twitter, Zap, BarChart2, Users, Search, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState<"input" | "analysis">("input");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [socialAnalysis, setSocialAnalysis] = useState<SocialAnalysisResult | null>(null);
+  const [brandInput, setBrandInput] = useState<BrandInput | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleSubmit = async (input: BrandInput) => {
-    setIsLoading(true);
+    setBrandInput(input);
+    setIsAnalyzing(true);
     try {
-      const data = await generateTweets(input);
-      navigate("/results", { state: { result: data, brandName: input.brandName } });
+      const analysis = await analyzeBrandSocial(input.brandName);
+      setSocialAnalysis(analysis);
+      setStep("analysis");
+    } catch (err) {
+      toast({
+        title: "Analysis failed",
+        description: err instanceof Error ? err.message : "Something went wrong",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleGenerate = async () => {
+    if (!brandInput || !socialAnalysis) return;
+    setIsGenerating(true);
+    try {
+      const data = await generateTweets({ ...brandInput, socialAnalysis });
+      navigate("/results", { state: { result: data, brandName: brandInput.brandName } });
     } catch (err) {
       toast({
         title: "Generation failed",
@@ -22,79 +47,121 @@ const Index = () => {
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
+      setIsGenerating(false);
     }
   };
 
   return (
-    <div className="h-screen bg-background flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-border bg-card flex-shrink-0">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 h-20 flex items-center gap-3">
           <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
             <Twitter className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="text-lg font-semibold text-foreground tracking-tight">BrandTweet Generator</span>
+
+          {/* Step indicator */}
+          <div className="ml-auto flex items-center gap-2 text-sm">
+            <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${step === "input" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+              1. Analyze
+            </span>
+            <span className="text-muted-foreground">→</span>
+            <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${step === "analysis" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+              2. Generate
+            </span>
+          </div>
         </div>
       </header>
 
-      {/* Main — two columns */}
-      <div className="flex-1 flex items-center overflow-hidden">
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      {/* Main */}
+      <div className="flex-1">
+        {step === "input" ? (
+          <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[calc(100vh-10rem)]">
+            {/* Left — About */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight leading-tight">
+                  Generate authentic,<br />on-brand tweets<br />in seconds.
+                </h1>
+                <p className="text-base text-muted-foreground leading-relaxed max-w-md">
+                  Our AI first analyzes your brand's real social media presence across Twitter/X, Instagram & LinkedIn — then generates tweets that match your actual voice.
+                </p>
+              </div>
 
-          {/* Left — About */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight leading-tight">
-                Generate authentic,<br />on-brand tweets<br />in seconds.
-              </h1>
-              <p className="text-base text-muted-foreground leading-relaxed max-w-md">
-                Our AI analyzes your brand's voice, tone, and audience — then generates 10 tweets that sound like they were written by your social media team.
-              </p>
+              {/* Feature highlights */}
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Search className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Social Media Analysis</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">Scans your brand's posts across Twitter/X, Instagram & LinkedIn to learn your voice.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Zap className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">AI Voice Matching</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">Generates tweets that match your real tone, slang, and writing patterns.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <BarChart2 className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">4 Tweet Styles</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">Conversational, promotional, witty, and informative — all in one run.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Users className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">10 Tweets Per Run</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">Get a full batch of ready-to-post tweets optimized for engagement.</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Feature highlights */}
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Zap className="h-4 w-4 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">AI Voice Analysis</p>
-                  <p className="text-sm text-muted-foreground mt-0.5">Understands your brand tone, style, and audience automatically.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <BarChart2 className="h-4 w-4 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">4 Tweet Styles</p>
-                  <p className="text-sm text-muted-foreground mt-0.5">Conversational, promotional, witty, and informative — all in one run.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Users className="h-4 w-4 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">10 Tweets Per Run</p>
-                  <p className="text-sm text-muted-foreground mt-0.5">Get a full batch of ready-to-post tweets optimized for engagement.</p>
-                </div>
-              </div>
+            {/* Right — Form */}
+            <div className="bg-card border border-border rounded-xl p-7 shadow-sm">
+              <h2 className="text-base font-semibold text-foreground mb-1">Brand Details</h2>
+              <p className="text-sm text-muted-foreground mb-5">Step 1: Enter your brand info. We'll analyze your social media presence first.</p>
+              <BrandForm onSubmit={handleSubmit} isLoading={isAnalyzing} buttonText={isAnalyzing ? "Analyzing Social Media..." : "Analyze Brand & Continue"} />
             </div>
           </div>
+        ) : (
+          <div className="w-full max-w-4xl mx-auto px-6 sm:px-10 py-8">
+            <div className="flex items-center gap-3 mb-6">
+              <Button variant="ghost" size="sm" onClick={() => setStep("input")} className="gap-1.5 -ml-2">
+                <ArrowLeft className="h-4 w-4" />
+                Back
+              </Button>
+              <div className="h-4 w-px bg-border" />
+              <span className="text-sm text-muted-foreground">Step 2: Review analysis & generate tweets</span>
+            </div>
 
-          {/* Right — Form */}
-          <div className="bg-card border border-border rounded-xl p-7 shadow-sm">
-            <h2 className="text-base font-semibold text-foreground mb-5">Brand Details</h2>
-            <BrandForm onSubmit={handleSubmit} isLoading={isLoading} />
+            {socialAnalysis && brandInput && (
+              <SocialAnalysisDisplay
+                analysis={socialAnalysis}
+                brandName={brandInput.brandName}
+                onProceed={handleGenerate}
+                isGenerating={isGenerating}
+              />
+            )}
           </div>
-        </div>
+        )}
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card py-6">
+      <footer className="border-t border-border bg-card py-6 flex-shrink-0">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 text-center">
           <p className="text-base text-muted-foreground">Developed by <span className="font-semibold text-foreground">Tharun C R</span></p>
         </div>

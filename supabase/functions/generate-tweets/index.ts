@@ -9,10 +9,40 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { brandName, industry, objective, productDescription } = await req.json();
+    const { brandName, industry, objective, productDescription, socialAnalysis } = await req.json();
 
     const API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!API_KEY) throw new Error("AI API key is not configured");
+
+    // Build context from social analysis if available
+    let socialContext = "";
+    if (socialAnalysis) {
+      const posts = socialAnalysis.platforms
+        ?.flatMap((p: any) => p.samplePosts?.map((post: any) => `[${p.platform}] ${post.text}`) || [])
+        ?.join("\n") || "";
+      
+      const voice = socialAnalysis.voiceProfile;
+      socialContext = `
+REAL SOCIAL MEDIA ANALYSIS (use this as your PRIMARY reference for voice & style):
+Overall Summary: ${socialAnalysis.overallSummary || "N/A"}
+
+Voice Profile:
+- Tone: ${voice?.tone || "N/A"}
+- Personality: ${voice?.personality || "N/A"}
+- Writing Patterns: ${voice?.writingPatterns?.join(", ") || "N/A"}
+- Emoji Style: ${voice?.emojiStyle || "N/A"}
+- Hashtag Style: ${voice?.hashtagStyle || "N/A"}
+- Unique Traits: ${voice?.uniqueTraits?.join(", ") || "N/A"}
+- Engagement Style: ${voice?.engagementStyle || "N/A"}
+
+Audience: ${socialAnalysis.audienceProfile?.demographics || "N/A"}
+Audience Interests: ${socialAnalysis.audienceProfile?.interests?.join(", ") || "N/A"}
+
+Recent posts from their actual social media:
+${posts}
+
+IMPORTANT: Your tweets MUST match the voice, tone, and style found in these real posts. Mimic their actual writing patterns, not generic marketing copy.`;
+    }
 
     const analysisPrompt = `You are a real social media manager who has worked at ${brandName} for 3 years. You write tweets the way a real human does — imperfect, relatable, sometimes casual, sometimes punchy. You never sound robotic or corporate.
 
@@ -20,8 +50,9 @@ Brand: ${brandName}
 Industry: ${industry}
 Campaign Objective: ${objective}
 Product/Service: ${productDescription}
+${socialContext}
 
-STEP 1: Analyze the brand voice based on your deep knowledge:
+STEP 1: Analyze the brand voice${socialAnalysis ? " (refine based on the real social media data above)" : " based on your deep knowledge"}:
 1. Brand Tone
 2. Target Audience
 3. Communication Style
@@ -43,6 +74,7 @@ AUTHENTICITY RULES:
 - At least 1 tweet should be funny or slightly self-aware.
 - No tweet should read like an ad copy or press release.
 - Do NOT recycle or paraphrase any existing viral tweets. Every tweet must be completely original.
+${socialAnalysis ? "- CRITICAL: Match the exact writing style, slang, and patterns found in the real social media posts above." : ""}
 
 BAD EXAMPLE (too robotic): "Ready to conquer your fitness goals? 🏃‍♂️ Our new shoes are here to help you push boundaries! #JustDoIt"
 GOOD EXAMPLE (human): "put on the new ones for a quick 5k and honestly forgot i was wearing shoes. that's either really good or really concerning"
