@@ -52,39 +52,45 @@ const steps = [
 const techStack = [
   {
     icon: Code2,
-    name: "React + TypeScript",
-    category: "Frontend",
-    description: "Modern component-based UI built with React 18 and TypeScript for type safety, fast rendering, and maintainable code architecture.",
+    name: "React 18 + TypeScript",
+    category: "Frontend Framework",
+    description: "React is a declarative, component-based JavaScript library developed by Meta for building user interfaces. It uses a virtual DOM to efficiently update only the parts of the page that change, resulting in high performance. Combined with TypeScript — a statically typed superset of JavaScript — the codebase gains compile-time error detection, better IDE autocompletion, and self-documenting interfaces.",
+    theory: "React's component model allows the app to be broken into reusable, isolated pieces (BrandForm, SocialAnalysisDisplay, ResultsDisplay). State management is handled via React hooks (useState, useEffect), and React Router enables client-side navigation between pages without full page reloads. TypeScript enforces strict typing on API responses, props, and state — preventing runtime errors before they happen.",
   },
   {
     icon: Layers,
     name: "Tailwind CSS",
-    category: "Styling",
-    description: "Utility-first CSS framework enabling rapid UI development with a consistent design system, responsive layouts, and semantic color tokens.",
+    category: "Styling Framework",
+    description: "Tailwind CSS is a utility-first CSS framework that provides low-level utility classes (like flex, pt-4, text-center) directly in your HTML/JSX. Unlike traditional CSS frameworks that give you pre-designed components, Tailwind gives you building blocks to create any design without writing custom CSS.",
+    theory: "This project uses Tailwind with a semantic design token system defined in index.css — variables like --primary, --background, --muted-foreground ensure consistent theming. The tailwind.config.ts maps these tokens to Tailwind classes. This approach enables rapid prototyping while maintaining design consistency, responsive layouts via breakpoints (sm:, lg:, xl:), and dark mode support through CSS custom properties.",
   },
   {
     icon: Cloud,
     name: "Supabase Edge Functions",
-    category: "Backend",
-    description: "Serverless Deno-based functions running at the edge for low-latency API calls, handling AI requests and brand data processing securely.",
+    category: "Serverless Backend",
+    description: "Edge Functions are server-side TypeScript functions powered by Deno that run on globally distributed edge nodes. They execute close to the user's location, minimizing latency. In this app, they serve as the secure backend layer between the frontend and the AI API.",
+    theory: "Each AI operation (brand autofill, social analysis, tweet generation) is an isolated Edge Function. This serverless architecture means no server management, automatic scaling, and pay-per-execution pricing. The functions securely store API keys (LOVABLE_API_KEY) as environment variables — never exposed to the client. They also handle error cases like rate limiting (429) and payment issues (402), returning structured JSON responses.",
   },
   {
     icon: Cpu,
     name: "Google Gemini AI",
-    category: "AI Engine",
-    description: "Powered by Google's Gemini Flash models for ultra-fast social media analysis and tweet generation with optimized JSON-only prompts.",
+    category: "AI / LLM Engine",
+    description: "Google Gemini is a family of multimodal large language models (LLMs) developed by Google DeepMind. This app uses Gemini 2.5 Flash Lite — the fastest and most cost-efficient variant — optimized for classification, summarization, and structured output generation.",
+    theory: "The AI is accessed via the Lovable AI Gateway (OpenAI-compatible API). Prompts are carefully engineered to return JSON-only responses with no markdown formatting, reducing parsing complexity. Temperature is set to 0.3 for consistent, deterministic outputs. The social analysis prompt instructs the model to scan real brand data across platforms and return structured voice profiles, while the tweet generation prompt uses the analysis as context to produce authentic, on-brand content across 4 distinct styles.",
   },
   {
     icon: Database,
     name: "Supabase Platform",
-    category: "Infrastructure",
-    description: "Open-source Firebase alternative providing authentication, database, and serverless functions with automatic scaling and built-in security.",
+    category: "Backend-as-a-Service",
+    description: "Supabase is an open-source Firebase alternative that provides a full backend stack: PostgreSQL database, authentication, real-time subscriptions, file storage, and edge functions. It offers the power of a relational database with the convenience of a managed service.",
+    theory: "In this project, Supabase provides the infrastructure layer — hosting edge functions, managing secrets, and providing the client SDK (@supabase/supabase-js) for seamless frontend-backend communication. The supabase.functions.invoke() method handles authenticated requests to edge functions with automatic error handling. The platform auto-scales based on traffic and provides built-in Row Level Security (RLS) for data protection.",
   },
   {
     icon: Globe,
     name: "Vite",
-    category: "Build Tool",
-    description: "Next-generation frontend build tool offering instant hot module replacement (HMR), optimized production builds, and lightning-fast dev server.",
+    category: "Build Toolchain",
+    description: "Vite (French for 'fast') is a next-generation frontend build tool created by Evan You (creator of Vue.js). It leverages native ES modules in the browser during development for instant server start, and uses Rollup for optimized production bundles.",
+    theory: "Vite's Hot Module Replacement (HMR) updates the browser in milliseconds when code changes — dramatically faster than traditional bundlers like Webpack. It supports TypeScript, JSX, and CSS out of the box. Environment variables (VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY) are injected at build time via import.meta.env, ensuring secure configuration. The production build performs tree-shaking, code-splitting, and minification for optimal load performance.",
   },
 ];
 
@@ -228,24 +234,28 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        {/* Tech Stack */}
+        {/* Tech Stack - Deep Dive */}
         <section className="w-full max-w-5xl mx-auto px-6 sm:px-10 pb-16">
-          <h2 className="text-2xl font-bold text-foreground text-center mb-2">Technology Stack</h2>
-          <p className="text-muted-foreground text-center mb-8 text-sm">The tools and frameworks powering this application</p>
+          <h2 className="text-2xl font-bold text-foreground text-center mb-2">Technology Deep Dive</h2>
+          <p className="text-muted-foreground text-center mb-8 text-sm">Understanding the tools and theories behind this application</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="space-y-5">
             {techStack.map((tech) => (
-              <div key={tech.name} className="rounded-xl border border-border bg-card p-6 hover:border-primary/30 transition-colors">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <tech.icon className="h-5 w-5 text-primary" />
+              <div key={tech.name} className="rounded-xl border border-border bg-card p-6 sm:p-8 hover:border-primary/30 transition-colors">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <tech.icon className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-foreground">{tech.name}</h3>
-                    <span className="text-xs text-primary font-medium uppercase tracking-wider">{tech.category}</span>
+                    <h3 className="text-lg font-bold text-foreground">{tech.name}</h3>
+                    <span className="text-xs text-primary font-semibold uppercase tracking-wider">{tech.category}</span>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{tech.description}</p>
+                <p className="text-sm text-foreground leading-relaxed mb-3">{tech.description}</p>
+                <div className="rounded-lg bg-muted/50 border border-border p-4">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">How it's used in this project</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{tech.theory}</p>
+                </div>
               </div>
             ))}
           </div>
