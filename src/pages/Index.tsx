@@ -54,7 +54,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border bg-card flex-shrink-0">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-card">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 h-20 flex items-center gap-3">
           <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
             <Twitter className="h-5 w-5 text-primary-foreground" />
@@ -75,7 +75,7 @@ const Index = () => {
       </header>
 
       {/* Main */}
-      <div className="flex-1">
+      <div className="flex-1 pt-20 pb-16">
         {step === "input" ? (
           <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[calc(100vh-10rem)]">
             {/* Left — About */}
