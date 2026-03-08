@@ -103,7 +103,7 @@ const Index = () => {
                     <BarChart2 className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">4 Tweet Styles</p>
+                    <p className="text-[15px] font-semibold text-foreground">4 Tweet Styles</p>
                     <p className="text-sm text-muted-foreground mt-0.5">Conversational, promotional, witty, and informative — all in one run.</p>
                   </div>
                 </div>
