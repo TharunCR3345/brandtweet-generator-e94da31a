@@ -175,9 +175,9 @@ const Results = () => {
       </header>
 
       {/* Two-column layout — each column scrolls independently */}
-      <div className="flex-1 w-full max-w-7xl mx-auto px-6 sm:px-10 flex gap-8 overflow-hidden">
+      <div className="flex-1 w-full max-w-[1440px] mx-auto px-6 sm:px-10 flex gap-8 overflow-hidden">
         {/* Left sidebar — Brand Voice */}
-        <aside className="w-[320px] flex-shrink-0 hidden lg:flex flex-col pt-8 overflow-hidden">
+        <aside className="w-[360px] flex-shrink-0 hidden lg:flex flex-col pt-8 overflow-hidden">
           <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5 flex-shrink-0">Brand Voice</h2>
           <div className="flex-1 overflow-y-auto scrollbar-hide space-y-5 pb-8" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div className="bg-card border border-border rounded-xl divide-y divide-border">
