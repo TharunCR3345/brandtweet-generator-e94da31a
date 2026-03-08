@@ -161,7 +161,7 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card py-6 flex-shrink-0">
+      <footer className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card py-4">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 text-center">
           <p className="text-base text-muted-foreground">Developed by <span className="font-semibold text-foreground">Tharun C R</span></p>
         </div>
