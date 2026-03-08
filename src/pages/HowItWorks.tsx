@@ -234,24 +234,28 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        {/* Tech Stack */}
+        {/* Tech Stack - Deep Dive */}
         <section className="w-full max-w-5xl mx-auto px-6 sm:px-10 pb-16">
-          <h2 className="text-2xl font-bold text-foreground text-center mb-2">Technology Stack</h2>
-          <p className="text-muted-foreground text-center mb-8 text-sm">The tools and frameworks powering this application</p>
+          <h2 className="text-2xl font-bold text-foreground text-center mb-2">Technology Deep Dive</h2>
+          <p className="text-muted-foreground text-center mb-8 text-sm">Understanding the tools and theories behind this application</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="space-y-5">
             {techStack.map((tech) => (
-              <div key={tech.name} className="rounded-xl border border-border bg-card p-6 hover:border-primary/30 transition-colors">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <tech.icon className="h-5 w-5 text-primary" />
+              <div key={tech.name} className="rounded-xl border border-border bg-card p-6 sm:p-8 hover:border-primary/30 transition-colors">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <tech.icon className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-foreground">{tech.name}</h3>
-                    <span className="text-xs text-primary font-medium uppercase tracking-wider">{tech.category}</span>
+                    <h3 className="text-lg font-bold text-foreground">{tech.name}</h3>
+                    <span className="text-xs text-primary font-semibold uppercase tracking-wider">{tech.category}</span>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{tech.description}</p>
+                <p className="text-sm text-foreground leading-relaxed mb-3">{tech.description}</p>
+                <div className="rounded-lg bg-muted/50 border border-border p-4">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">How it's used in this project</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{tech.theory}</p>
+                </div>
               </div>
             ))}
           </div>
