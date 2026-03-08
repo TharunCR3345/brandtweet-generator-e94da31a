@@ -129,7 +129,7 @@ const Index = () => {
         ) : (
           <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-8 flex flex-col h-[calc(100vh-6.5rem)]">
             <div className="flex items-center gap-3 mb-6 flex-shrink-0">
-              <Button variant="ghost" size="sm" onClick={() => setStep("input")} className="gap-1.5 -ml-2">
+              <Button variant="ghost" size="sm" onClick={() => setStep("input")} className="gap-1.5 -ml-2 px-3">
                 <ArrowLeft className="h-4 w-4" />
                 Back
               </Button>

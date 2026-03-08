@@ -157,11 +157,13 @@ export function SocialAnalysisDisplay({ analysis, brandName, onProceed, isGenera
       </div>
 
       {/* Fixed bottom button */}
-      <div className="flex-shrink-0 border-t border-border bg-background pt-4 pb-2">
-        <Button onClick={onProceed} disabled={isGenerating} className="w-full h-12 text-sm font-medium gap-2">
-          {isGenerating ? "Generating Tweets..." : "Generate 10 Tweets Based on This Analysis"}
-          {!isGenerating && <ChevronRight className="h-4 w-4" />}
-        </Button>
+      <div className="flex-shrink-0 border-t border-border bg-background pt-3 pb-1">
+        <div className="max-w-md mx-auto">
+          <Button onClick={onProceed} disabled={isGenerating} className="w-full h-11 text-sm font-medium gap-2">
+            {isGenerating ? "Generating Tweets..." : "Generate 10 Tweets Based on This Analysis"}
+            {!isGenerating && <ChevronRight className="h-4 w-4" />}
+          </Button>
+        </div>
       </div>
     </div>
   );
